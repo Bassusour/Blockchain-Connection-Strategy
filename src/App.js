@@ -50,12 +50,12 @@ function App() {
       <div className="App-header">
         <div className="description">
           <h1>Greeter.sol</h1>
-          <h3>Full stack dapp using ReactJS and Hardhat</h3>
+          <h3>Access/modify the contract with the buttons below</h3>
         </div>
         <div className='costum-buttons'>
         <button style={{ backgroundColor: 'green'}}
                 onClick={fetchGreeting}>
-                Fetch Greeting
+                Get Greeting
         </button>
         <button style={{ backgroundColor: 'red'}}
                 onClick={setGreeting}>

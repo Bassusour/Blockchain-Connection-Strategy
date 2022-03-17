@@ -1,9 +1,10 @@
-# Basic Sample Hardhat Project
+# Blockchain connection strategy
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+`npx hardhat node` to start local blockchain on localhost:8545
+`npx hardhat run script.js --network localhost` to deploy a script on localhost:8545
+`npm start` to start the webapp on localhost:3000
 
-Try running some of the following tasks:
-
+Other useful commands
 ```shell
 npx hardhat accounts
 npx hardhat compile

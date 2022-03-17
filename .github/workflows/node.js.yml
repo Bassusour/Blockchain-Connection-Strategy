@@ -2,7 +2,7 @@ name: Test pull request action
 
 on:
   pull_request:
-    branches: [ test_branch ]
+    branches: [ master ]
 
 jobs:
   test_pull_request:

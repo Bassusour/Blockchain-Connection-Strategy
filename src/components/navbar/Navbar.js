@@ -4,7 +4,6 @@ import {Nav, NavLink, NavMenu, NavBtn, NavBtnLink, NavLogo } from './NavbarEleme
 
 function Navbar() {
     return (
-        <>
         <Nav>
             <NavLogo to="/">
                 Logo
@@ -27,7 +26,6 @@ function Navbar() {
                 <NavBtnLink to='/siginin'>Sign in</NavBtnLink>
             </NavBtn> */}
         </Nav>
-        </>
     );
 }
 

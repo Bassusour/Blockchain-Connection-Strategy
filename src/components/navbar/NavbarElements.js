@@ -8,10 +8,10 @@ export const Nav = styled.nav`
     display: flex;
     align-items: center;
 
-    /* justify-content: space-around; */
-    /* text-align: center; */
-    /* padding: 0.2rem */
-    /* z-index: 12; */
+    justify-content: space-around;
+    text-align: center;
+    padding: 0.2rem
+    z-index: 12;
 `
 
 export const NavLogo = styled(Link)`
@@ -19,9 +19,9 @@ export const NavLogo = styled(Link)`
   font-size: 2rem;
   text-decoration: none;
   padding-left: 3%;
-  /* justify-content: flex-end; */
-  /* align-items: center; */
-  /* cursor: pointer; */
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
 `
 
 export const NavMenu = styled.div`
@@ -56,7 +56,7 @@ export const NavBtn = styled.nav`
 export const NavBtnLink = styled(Link)`
   border-radius: 4px;
   background: transparent;
-  padding: 10px 22px;
+  // padding: 10px 22px;
   color: #fff;
   outline: none;
   border: 1px solid #fff;

@@ -1,5 +1,16 @@
-.App {
+.title {
+  height: 85px;
+  width: 100%;
+  align-items: center;
   text-align: center;
+  padding-top: 2%;
+  /* background-color: red; */
+}
+
+.background {
+  height: 92vh;
+  width: 100%;
+  background-color: grey;
 }
 
 .App-header {

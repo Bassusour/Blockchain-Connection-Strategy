@@ -1,74 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import Card from './Card'
 import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
 import { ethers } from 'ethers'
 import { Link } from 'react-router-dom';
 import '../App.css';
 
-const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-
 function ChangeStrategy() {
-    const [message, setMessage] = useState("")
+  return(
+    <div className="background">
+    <div className="wrapper">
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #1"
+        description="Strategy #1 description"
+      />
 
-  /* async function requestAccount() {
-    await window.ethereum.request({ method: 'eth_requestAccounts' })
-  } */
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #2"
+        description="Strategy #2 description"
+      />
 
-  async function fetchGreeting() {
-    /* if(typeof window.ethereum !== 'undefined') { */
-      /* const provider = new ethers.providers.Web3Provider(window.ethereum) */
-      const provider = new ethers.providers.JsonRpcProvider();
-      const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)
-
-      try {
-        const data = await contract.greet()
-        console.log("Data: " + data)
-      } catch(error) {
-        console.log("Error: " + error)
-      }
-    /* } */
-  }
-
-  async function setGreeting() {
-    if(!message) return
-    /* if(typeof window.ethereum !== 'undefined') { */
-      /* await requestAccount() */
-
-      /* const provider = new ethers.providers.Web3Provider(window.ethereum) */
-      const provider = new ethers.providers.JsonRpcProvider();
-      const signer = provider.getSigner()
-
-      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)
-      const transaction = await contract.setGreeting(message)
-
-      await transaction.wait()
-      fetchGreeting()
-    /* } */
-  }
-
-    return(
-        <div className="App">
-            <div >
-                <div className="description">
-                 <h1>Greeter.sol</h1>
-             </div>
-            <div className='costum-buttons'>
-            <button style={{ backgroundColor: 'green'}}
-                onClick={fetchGreeting}>
-                Get Greeting
-            </button>
-            <button style={{ backgroundColor: 'red'}}
-                onClick={setGreeting}>
-                Set Greeting
-            </button>
-        </div>
-        <input 
-          placeholder='Set Greeting'
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        ></input>
-      </div>
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #3"
+        description="Strategy #3 description"
+      />
     </div>
-    )
+
+    <div className="wrapper">
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #4"
+        description="Strategy #4 description"
+      />
+
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #5"
+        description="Strategy #5 description"
+      />
+
+      <Card
+        img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
+        title="Strategy #6"
+        description="Strategy #6 description"
+      />
+    </div>
+    </div>
+  )
 }
+
 
 export default ChangeStrategy;

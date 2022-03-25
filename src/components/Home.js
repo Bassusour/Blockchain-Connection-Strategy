@@ -47,29 +47,44 @@ function Home() {
 
     return(
       <div className="background">
-        <div className="App">
-            <div >
-                <div className="description">
-                 <h1>Greeter.sol</h1>
-             </div>
-            <div className='costum-buttons'>
-            <button
-                onClick={fetchGreeting}>
-                Get Greeting
-            </button>
-            <button
-                onClick={setGreeting}>
-                Set Greeting
-            </button>
+        <div className="mainframe">
+          <h1>Blockchain Connection Strategy</h1>
+          <h3>A decentralized app, that updates the connection strategy for costumers</h3>
+          <div className="home-buttons">
+            <button class="select-strategy-btn">Select strategy</button> 
+            <button className="github-btn">GitHub</button>
+          </div>
         </div>
-        <input 
-          placeholder='Set Greeting'
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        ></input>
+        <div className="current-strategy">
+          <h1>Current strategy</h1>
+          <p>Description of current strategy</p>
+        </div>
       </div>
-    </div>
-    </div>
+      
+    //   <div className="background">
+    //     <div className="App">
+    //         <div >
+    //             <div className="description">
+    //              <h1>Greeter.sol</h1>
+    //          </div>
+    //         <div className='costum-buttons'>
+    //         <button
+    //             onClick={fetchGreeting}>
+    //             Get Greeting
+    //         </button>
+    //         <button
+    //             onClick={setGreeting}>
+    //             Set Greeting
+    //         </button>
+    //       </div>
+    //       <input 
+    //         placeholder='Set Greeting'
+    //         onChange={(e) => setMessage(e.target.value)}
+    //         value={message}
+    //       ></input>
+    //     </div>
+    //   </div> 
+    // </div>
     )
 }
 

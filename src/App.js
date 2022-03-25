@@ -7,8 +7,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import ChangeStrategy from './components/ChangeStrategy';
 import Stats from './components/Stats';
-import './App.css';
-
+import Footer from './components/Footer';
 
 
 
@@ -23,6 +22,7 @@ function App() {
             <Route path="/changestrategy" element={<ChangeStrategy/>}/>
             <Route path="/stats" element={<Stats/>}/>
         </Routes>
+        <Footer/>
     </Router>
     
   );

@@ -23,13 +23,13 @@ $radius: 0.2rem;
 
 body {
   font-family: Oxygen, sans-serif;
-  margin: 2rem;
+  // margin: 5rem;
 }
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 20rem));
+  gap: 3rem;
   justify-content: center;
   padding-top: 2%;
 }
@@ -37,6 +37,7 @@ body {
 .card {
   overflow: hidden;
   box-shadow: 0 2px 20px $clr-gray300;
+  // margin: 2%;
   border-radius: $radius;
   display: flex;
   flex-direction: column;
@@ -48,14 +49,21 @@ body {
     height: 12rem;
     width: 100%;
     object-fit: cover;
+    // margin: 0 auto;
+    background-color: blue;
+    margin-top: 2rem;
   }
 
   &__title {
-    padding: 1rem;
+    padding: 2rem;
+    // margin: 0 auto;
+    text-align: center;
+    // background-color: blue;
   }
 
   &__description {
     padding: 0 1rem;
+    text-align: center;
   }
 
   &__btn {

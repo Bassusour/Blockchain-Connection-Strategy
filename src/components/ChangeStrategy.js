@@ -1,9 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Card from './Card'
-import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
-import { ethers } from 'ethers'
-import { Link } from 'react-router-dom';
-import '../App.css';
 
 function ChangeStrategy() {
   return(

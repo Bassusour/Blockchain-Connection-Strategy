@@ -14,11 +14,11 @@ public class App {
         StorageCreater sc = new StorageCreater();
         storage = sc.create();
         EthFilter filter = new EthFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, storage.getContractAddress());
-        sc.getWeb3().ethLogFlowable(filter).subscribe(event -> {
-            System.out.println("Event received");
-            System.out.println(event);
-        }, error -> {
-            System.out.println("Error: " + error);
+        Flowable<ValueChangedEventResponse> flow = storage.valueChangedEventFlowable(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST);
+        flow.subscribe(tx -> {
+            int oldNumber = tx.oldNumber.intValue();
+            int newNumber = tx.newNumber.intValue();
+            System.out.println("oldnumber:" + oldNumber + " " + "New number" + newNumber);
         });
     }
 

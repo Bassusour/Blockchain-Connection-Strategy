@@ -5,7 +5,9 @@ import '../App.css';
 function Contact() {
 
   return (
-    <h1>Contact Us</h1> 
+    <div className="background" id="contact">
+      <h1>Contact Us</h1>
+    </div>
 );
 }
 

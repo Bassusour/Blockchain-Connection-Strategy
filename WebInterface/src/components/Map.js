@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
 
-function Stats() {
+function Map() {
 
   return (
-    <h1>Stats</h1> 
+    <div className="background" id="map">
+      <h1>Map</h1> 
+    </div>
 );
 }
 
 
-export default Stats;
+export default Map;

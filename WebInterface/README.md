@@ -6,7 +6,7 @@
 `npm start` to start the webapp on localhost:3000\
 `npx hardhat test` to test the contracts
 
-Other useful commands
+Other commands
 ```shell
 npx hardhat accounts
 npx hardhat compile

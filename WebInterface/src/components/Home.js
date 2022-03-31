@@ -51,7 +51,7 @@ function Home() {
           <h1>Blockchain Connection Strategy</h1>
           <h3>A decentralized app, that updates the connection strategy for costumers</h3>
           <div className="home-buttons">
-            <button class="select-strategy-btn">Select strategy</button> 
+            <button className="select-strategy-btn">Select strategy</button> 
             <button className="github-btn">GitHub</button>
           </div>
         </div>

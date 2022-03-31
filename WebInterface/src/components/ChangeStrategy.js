@@ -3,8 +3,8 @@ import Card from './Card'
 
 function ChangeStrategy() {
   return(
-    <div className="background">
-    <div className="wrapper">
+    <div className="background" id="changestrategy">
+    <div className="wrapper" >
       <Card
         img="https://thumbs.dreamstime.com/b/connection-icon-white-background-simple-element-illustration-strategy-concept-isolated-editable-logo-symbol-design-can-be-141672484.jpg"
         title="Strategy #1"

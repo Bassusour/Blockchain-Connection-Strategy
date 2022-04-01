@@ -3,15 +3,15 @@ import './Footer.css';
 function Footer() {
 
   return (
- <div class="footer-basic">
+ <div className="footer-basic">
       <footer>
         
-        <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Home</a></li>
-                <li class="list-inline-item"><a href="#">About</a></li>
-                <li class="list-inline-item"><a href="#">Contact</a></li>
+        <ul className="list-inline">
+                <li className="list-inline-item"><a href="#">Home</a></li>
+                <li className="list-inline-item"><a href="#">About</a></li>
+                <li className="list-inline-item"><a href="#">Contact</a></li>
             </ul>
-            <p class="copyright">Blochchain Connection Strategy © 2022</p>
+            <p className="copyright">Blochchain Connection Strategy © 2022</p>
       </footer>
       </div>);
 }

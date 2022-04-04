@@ -1,26 +1,38 @@
 [
 	{
-		"anonymous": false,
 		"inputs": [
 			{
-				"indexed": false,
 				"internalType": "uint256",
-				"name": "oldNumber",
+				"name": "index",
 				"type": "uint256"
 			},
 			{
-				"indexed": false,
+				"internalType": "enum SixG_Strategy.Priority",
+				"name": "priority",
+				"type": "uint8"
+			}
+		],
+		"name": "changePriority",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
-				"name": "newNumber",
+				"name": "index",
 				"type": "uint256"
 			}
 		],
-		"name": "valueChanged",
-		"type": "event"
+		"name": "deleteStrategy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "retrieve",
+		"name": "getLenght",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -33,7 +45,176 @@
 	},
 	{
 		"inputs": [],
-		"name": "store",
+		"name": "getStregegies",
+		"outputs": [
+			{
+				"components": [
+					{
+						"components": [
+							{
+								"internalType": "uint32",
+								"name": "x",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "y",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "radius",
+								"type": "uint32"
+							}
+						],
+						"internalType": "struct SixG_Strategy.Location",
+						"name": "location",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum SixG_Strategy.ConnectionType",
+						"name": "connectionType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum SixG_Strategy.Priority",
+						"name": "priority",
+						"type": "uint8"
+					}
+				],
+				"internalType": "struct SixG_Strategy.Strategy[]",
+				"name": "",
+				"type": "tuple[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "length",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "x",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "y",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "radius",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum SixG_Strategy.ConnectionType",
+				"name": "connectionType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum SixG_Strategy.Priority",
+				"name": "priority",
+				"type": "uint8"
+			}
+		],
+		"name": "makeStrategy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "strategies",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "uint32",
+						"name": "x",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "y",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint32",
+						"name": "radius",
+						"type": "uint32"
+					}
+				],
+				"internalType": "struct SixG_Strategy.Location",
+				"name": "location",
+				"type": "tuple"
+			},
+			{
+				"internalType": "uint256",
+				"name": "startDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "endDate",
+				"type": "uint256"
+			},
+			{
+				"internalType": "enum SixG_Strategy.ConnectionType",
+				"name": "connectionType",
+				"type": "uint8"
+			},
+			{
+				"internalType": "enum SixG_Strategy.Priority",
+				"name": "priority",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "updateArray",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"

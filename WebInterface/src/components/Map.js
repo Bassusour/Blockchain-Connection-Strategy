@@ -1,51 +1,60 @@
-import { React, useEffect } from 'react';
-import { useMap } from "react-leaflet";
-import L from "leaflet";
-import {TileLayer, Popup, Circle, CircleMarker } from "react-leaflet";
+import { useEffect } from "react";
+import { useLeafletContext } from "@react-leaflet/core";
+import "@geoman-io/leaflet-geoman-free";
+import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
-
-
-
-function Map() {
-  const map = useMap()
+const Map = () => {
+  const context = useLeafletContext();
 
   useEffect(() => {
-    if (!map.selectArea) return;
+    const map = context.map;
 
-    map.selectArea.enable();
-
-    map.on("areaselected", (e) => {
-      // console.log(e.bounds.toBBoxString()); // lon, lat, lon, lat
-      // const firstCoord = e.bounds.toBBoxString().split(',')
-      const firstCoord = e.bounds.toBBoxString().split(',')[0] +', ' + e.bounds.toBBoxString().split(',')[1]
-      const secondCoord = e.bounds.toBBoxString().split(',')[2] +', ' + e.bounds.toBBoxString().split(',')[3]
-      // console.log(firstCoord + " " + secondCoord)
-      console.log(e.bounds)
-      L.rectangle(e.bounds, { color: "blue", weight: 1 }).addTo(map);
-      // var currentMarker = L.circleMarker(, {color: 'green', weight: 0, fillOpacity: 0.4}).addTo(map);
-      // <CircleMarker center={[firstCoord]}>
-      //       <Popup>
-      //         A pretty CSS3 popup. <br /> Easily customizable.
-      //       </Popup>
-      //     </CircleMarker>
-      // currentMarker.setRadius(10);
-      // currentMarker.addTo(this.map);
+    map.pm.addControls({
+      drawMarker: false,
+      drawCircleMarker: false,
+      drawPolyline: false,
+      drawPolygon: false,
+      cutPolygon: false,
+      rotateMode: false
     });
 
-    // You can restrict selection area like this:
-    const bounds = map.getBounds().pad(-0.25); // save current map bounds as restriction area
-    // check restricted area on start and move
-    /*map.selectArea.setValidate((layerPoint) => {
-      return bounds.contains(this._map.layerPointToLatLng(layerPoint));
-    });*/
+    map.pm.setGlobalOptions({ snapable: true });
 
-    // now switch it off
-    map.selectArea.setValidate();
-  }, []);
+    // On shape creation
+    map.on("pm:create", (e) => {
+      const shape = e;
+      console.log(e);
+
+      // enable editing of circle
+      shape.layer.pm.enable();
+
+      // console.log(`object created: ${shape.layer.pm.getShape()}`);
+
+      // Set popup
+      // map.pm
+      //   .getGeomanLayers()
+      //   .map((layer, index) => layer.bindPopup(`I am figure N° ${index}`));
+
+      // On shape edit
+      shape.layer.on("pm:edit", (e) => {
+        console.log('edited')
+      });
+    });
+
+    // On shape remove
+    map.on("pm:remove", (e) => {
+      console.log("removed");
+    });
+
+    return () => {
+      map.pm.removeControls();
+      // map.pm.setGlobalOptions({ pmIgnore: true });
+    };
+  }, [context]);
 
   return (
     null
-  )
-}
+  );
+};
 
-export default Map
+export default Map;

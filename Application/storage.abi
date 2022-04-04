@@ -1,5 +1,62 @@
 [
 	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"components": [
+					{
+						"components": [
+							{
+								"internalType": "uint32",
+								"name": "x",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "y",
+								"type": "uint32"
+							},
+							{
+								"internalType": "uint32",
+								"name": "radius",
+								"type": "uint32"
+							}
+						],
+						"internalType": "struct SixG_Strategy.Location",
+						"name": "location",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "startDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "endDate",
+						"type": "uint256"
+					},
+					{
+						"internalType": "enum SixG_Strategy.ConnectionType",
+						"name": "connectionType",
+						"type": "uint8"
+					},
+					{
+						"internalType": "enum SixG_Strategy.Priority",
+						"name": "priority",
+						"type": "uint8"
+					}
+				],
+				"indexed": false,
+				"internalType": "struct SixG_Strategy.Strategy[]",
+				"name": "strategies",
+				"type": "tuple[]"
+			}
+		],
+		"name": "changeStrategy",
+		"type": "event"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",

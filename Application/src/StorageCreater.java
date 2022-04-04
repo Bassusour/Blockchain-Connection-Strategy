@@ -10,7 +10,7 @@ import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
 
-import jp.ethereum.contracts.Storage;
+import ethereum.Storage;
 
 public class StorageCreater {
     static Storage storage;

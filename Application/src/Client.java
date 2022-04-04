@@ -1,9 +1,13 @@
 
 
+import java.util.List;
+
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
 
-import jp.ethereum.contracts.Storage;
+import io.reactivex.Flowable;
+import ethereum.*;
+import ethereum.Storage.ChangeStrategyEventResponse;
 
 public class Client {
     static Storage storage;
@@ -13,17 +17,11 @@ public class Client {
         System.out.println("Hello, World!");
         StorageCreater sc = new StorageCreater();
         storage = sc.create();
-        Flowable<ValueChangedEventResponse> flow = new EthFilter(DefaultBlockParameterName.EARLIEST, DefaultBlockParameterName.LATEST, storage.getContractAddress());
-        sc.getWeb3().ethLogFlowable(filter).subscribe(event -> {
-            System.out.println("Event received");
-            System.out.println(event);
-        }, error -> {
-            System.out.println("Error: " + error);
+        Flowable<ChangeStrategyEventResponse> flow = storage.changeStrategyEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
+        flow.subscribe(event -> {
+            List<Strategy> strategies = event.strategies;
+            
         });
-    }
-
-    public void store() throws Exception{
-        storage.store().send();
     }
 
     public void updateStrategy(int startDay, int startMonth, int startYear, int endDay, int endMonth, int endYear, int priority, int x, int y, int radius, int connectionType){

@@ -1,10 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useContext, useRef } from "react";
 import { useLeafletContext } from "@react-leaflet/core";
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
+import { StratContext } from '../../App';
 
-const Map = () => {
+const stratColorMap = {
+  "Strategy #1": 'orange',
+  "Strategy #2": 'blue',
+  "Strategy #3": 'green',
+  "Strategy #4": 'yellow',
+  "Strategy #5": 'red',
+  "Strategy #6": 'purple',
+}
+
+function Map() {
   const context = useLeafletContext();
+  const { selectedStrat, setSelectedStrat } = useContext(StratContext)
+  // console.log(selectedStrat)
 
   useEffect(() => {
     const map = context.map;
@@ -19,14 +31,20 @@ const Map = () => {
     });
 
     map.pm.setGlobalOptions({ snapable: true });
+    console.log(selectedStrat)
+    map.pm.setPathOptions({
+      color: stratColorMap[selectedStrat],
+      fillColor: stratColorMap[selectedStrat],
+      fillOpacity: 0.4,
+    });
 
     // On shape creation
     map.on("pm:create", (e) => {
       const shape = e;
       console.log(e);
 
-      // enable editing of circle
-      shape.layer.pm.enable();
+      // enable editing of shape
+      // shape.layer.pm.enable();
 
       // console.log(`object created: ${shape.layer.pm.getShape()}`);
 
@@ -50,7 +68,7 @@ const Map = () => {
       map.pm.removeControls();
       // map.pm.setGlobalOptions({ pmIgnore: true });
     };
-  }, [context]);
+  }, [context, selectedStrat]);
 
   return (
     null

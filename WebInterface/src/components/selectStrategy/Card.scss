@@ -28,10 +28,15 @@ body {
 
 .wrapper {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, 20rem));
-  gap: 3rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  // display: inline-block;
   justify-content: center;
-  padding-top: 2%;
+  // float: left;
+  // background-color: red;
+  // margin: 0 auto;
+  padding-top: 4vh;
+  padding-left: 4vh;
 }
 
 .card {

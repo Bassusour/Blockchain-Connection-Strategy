@@ -1,4 +1,3 @@
-import Card from './Card'
 import React, { useState, useEffect } from 'react';
 import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
 import { ethers } from 'ethers'

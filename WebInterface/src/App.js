@@ -1,49 +1,54 @@
 import Web3 from 'web3'
-import React, { useState } from 'react'
+import React, { useState, createContext } from 'react'
 import { HashRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { MapContainer, TileLayer } from "react-leaflet";
+import './App.css'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
 import About from './components/About';
 import Contact from './components/Contact';
-import ChangeStrategy from './components/ChangeStrategy';
-import Map from './components/Map';
+import ChangeStrategy from './components/selectStrategy/ChangeStrategy';
+import Map from './components/selectStrategy/Map';
 import Footer from './components/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
-import { MapContainer, TileLayer } from "react-leaflet";
+
+const StratContext = createContext();
 
 function App() {
-  const position = [51.505, -0.09];
+  const initialPos = [55.78373878553941, 12.518501326376303];
+  const zoomLv = 13;
+  const [selectedStrat, setSelectedStrat] = useState("No strategy selected")
 
   return (
     <>
     <Nav/>
     <Home/>
-    <ChangeStrategy/>
+
+    <StratContext.Provider value={{ selectedStrat, setSelectedStrat }}>
+      <div className="background">
+        <div className='map'>
+        <MapContainer center={initialPos} zoom={zoomLv} id='map'>
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            maxZoom={20}
+          />
+          <Map />
+        </MapContainer>
+        </div>
+        <div className="changestrategy">
+          <ChangeStrategy/>
+        </div>
+      </div>
+    </StratContext.Provider>
+
     <Contact/>
-    <MapContainer center={position} zoom={13} style={{ height: "90vh" }}>
-      <TileLayer
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Map />
-    </MapContainer>
     <Footer/>
     </>
-
-    // <Router>
-    //   <Nav/>
-    //   <Routes>
-    //       <Route path="/" element={<Home/>}/>
-    //       <Route path="/about" element={<About/>}/>
-    //       <Route path="/contact" element={<Contact/>}/>
-    //       <Route path="/changestrategy" element={<ChangeStrategy/>}/>
-    //       <Route path="/stats" element={<Stats/>}/>
-    //   </Routes>
-    //   <Footer/>
-    // </Router>
-    
   );
 }
 
-export default App;
+export {App,
+        StratContext
+}

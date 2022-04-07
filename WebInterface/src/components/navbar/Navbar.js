@@ -20,20 +20,24 @@ function Nav() {
       </div>
     
       <div className="navMenu">
-        <Link smooth to="#changestrategy"  
+        <Link smooth to="#top" scroll={el => scrollWithOffset(el)}
+              className="navigationLink">
+          Home
+        </Link>
+        <Link smooth to="#map"  
               scroll={el => scrollWithOffset(el)}
               className="navigationLink">
-          connection strategy
+          Connection strategy
         </Link>
+        {/* <Link smooth to="#map" 
+              className="navigationLink"
+              scroll={el => scrollWithOffset(el)}>
+          Map
+        </Link> */}
         <Link smooth to="#contact" 
               className="navigationLink"
               scroll={el => scrollWithOffset(el)}>
           Contact
-        </Link>
-        <Link smooth to="#map" 
-              className="navigationLink"
-              scroll={el => scrollWithOffset(el)}>
-          Map
         </Link>
       </div>
     </div>

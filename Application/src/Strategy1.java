@@ -1,6 +1,6 @@
 import java.util.Calendar;
 
-public class Strategy {
+public class Strategy1 {
     private static final int WIFI = 0;
     private static final int DATA = 1;
 
@@ -8,7 +8,7 @@ public class Strategy {
     private int priority, connectionType;
     private Location location;
 
-    public Strategy(){
+    public Strategy1(){
 
     }
 

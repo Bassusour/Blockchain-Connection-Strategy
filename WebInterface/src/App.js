@@ -1,17 +1,26 @@
 import Web3 from 'web3'
 import React, { useState, createContext } from 'react'
 import { HashRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import { MapContainer, TileLayer } from "react-leaflet";
+// import { MapContainer, TileLayer } from "react-leaflet";
 import './App.css'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
 import About from './components/About';
-import Contact from './components/Contact';
+import AddStrategy from './components/AddStrategy';
 import ChangeStrategy from './components/selectStrategy/ChangeStrategy';
-import Map from './components/selectStrategy/Map';
 import Footer from './components/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
+  import {
+  Circle,
+  CircleMarker,
+  MapContainer,
+  Polyline,
+  Polygon,
+  Popup,
+  Rectangle,
+  TileLayer,
+} from 'react-leaflet'
 
 const StratContext = createContext();
 
@@ -20,30 +29,53 @@ function App() {
   const zoomLv = 13;
   const [selectedStrat, setSelectedStrat] = useState("No strategy selected")
 
+const center = [51.505, -0.09]
+
+
+const rectangle = [
+  [51.49, -0.08],
+  [51.5, -0.06],
+]
+
+const fillBlueOptions = { fillColor: 'blue' }
+const blackOptions = { color: 'black' }
+const limeOptions = { color: 'lime' }
+const purpleOptions = { color: 'purple' }
+const redOptions = { color: 'red' }
+
   return (
     <>
     <Nav/>
     <Home/>
-
+    {/* Current strategies */}
     <StratContext.Provider value={{ selectedStrat, setSelectedStrat }}>
       <div className="background">
         <div className='map'>
-        <MapContainer center={initialPos} zoom={zoomLv} id='map'>
+        <MapContainer center={center} zoom={zoomLv} id='map'>
           <TileLayer
             url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             maxZoom={20}
           />
-          <Map />
+          <Circle center={center} pathOptions={fillBlueOptions} radius={200} />
+      <CircleMarker
+        center={[51.51, -0.12]}
+        pathOptions={redOptions}
+        radius={20}>
+        <Popup>Popup in CircleMarker</Popup>
+      </CircleMarker>
+      <Rectangle bounds={rectangle} pathOptions={blackOptions} />
+          {/* <Map /> */}
         </MapContainer>
         </div>
         <div className="changestrategy">
           <ChangeStrategy/>
         </div>
       </div>
+      
+    <AddStrategy/>
     </StratContext.Provider>
-
-    <Contact/>
+    
     <Footer/>
     </>
   );

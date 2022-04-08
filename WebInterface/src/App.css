@@ -1,9 +1,9 @@
 .map {
-  height: 100vh;
+  height: 90vh;
   width: 50vw;
   display: inline-block;
   vertical-align: middle;
-  /* background-color: black; */
+    background-color: black;
 }
 
 .leaflet-container {
@@ -292,3 +292,15 @@ border-radius: 5px; */
   /* background-color: blue; */
 }
 
+.inputs {
+  display: inline-block;
+  background-color: red;
+  margin-left: 10vw;
+  /* margin-top: 10vh; */
+}
+
+#desc
+{
+    height:100px;
+    font-size:14pt;
+}

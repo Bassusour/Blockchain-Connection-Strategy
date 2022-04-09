@@ -3,9 +3,8 @@ import { StratContext } from '../../App';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './Card.scss'
-import './Test.css'
 
-function Card(props) {
+function Strategy(props) {
   var { selectedStrat, setSelectedStrat } = useContext(StratContext)
 
 //   useEffect(() => {
@@ -15,13 +14,12 @@ function Card(props) {
   return (
     <div className="card">
       <div className="card__body">
-        {/* <img src={props.img} className="card__image" /> */}
         <h2 className="card__title">{props.title}</h2>
         <p className="card__description">{props.description}</p>
       </div>
 
       <Popup 
-        trigger={<button className="card__btn" onClick={console.log("test")}> Details </button>}
+        trigger={<button className="card__btn"> Details </button>}
         modal
       > 
         <div className="header"> Title </div>        
@@ -45,4 +43,4 @@ function Card(props) {
   );
 }
 
-export default Card
+export default Strategy

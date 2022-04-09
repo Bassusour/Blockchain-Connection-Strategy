@@ -17,18 +17,17 @@ const stratColorMap = {
 function Map() {
   const context = useLeafletContext();
   const { selectedStrat, setSelectedStrat } = useContext(StratContext)
-  // console.log(selectedStrat)
-    const map = context.map;
-    // const container = L.map('map', { pmIgnore: false });
-    console.log(context)
-    // context.marker([55.78373878553941, 12.518501326376303]).addTo(container);
-    
-    // if (map != undefined) { map.remove(); }
+  const map = context.map;
+  // const container = L.map('map', { pmIgnore: false });
+  /* console.log(context) */
+  // context.marker([55.78373878553941, 12.518501326376303]).addTo(container);
+  
+  // if (map != undefined) { map.remove(); }
 
-    // const latLng = {lat: 55.78373878553941, lng: 12.518501326376303};
-    // const radius = 1401.7415305616735;
-    // const circle = L.circle(latLng,{radius:radius}).addTo(map);
-    // circle.pm.disable();
+  // const latLng = {lat: 55.78373878553941, lng: 12.518501326376303};
+  // const radius = 1401.7415305616735;
+  // const circle = L.circle(latLng,{radius:radius}).addTo(map);
+  // circle.pm.disable();
 
   useEffect(() => {
 
@@ -42,47 +41,73 @@ function Map() {
     });
 
     map.pm.setGlobalOptions({ snapable: true });
-    // console.log(selectedStrat)
     map.pm.setPathOptions({
       color: stratColorMap[selectedStrat],
       fillColor: stratColorMap[selectedStrat],
       fillOpacity: 0.4,
     });
 
-
-    console.log(map)
-
-    // On shape creation
     map.on("pm:create", (e) => {
       const shape = e;
-      console.log(e);
+      if(e.shape === "Circle"){
+        setSelectedStrat(prev => ({
+          ...prev,
+          shape: e.shape,
+          latlng: e.layer._latlng,
+          radius: e.layer.options.radius,
+        }))
+      }
 
-      // enable editing of shape
+      if(e.shape === "Rectangle"){
+        setSelectedStrat(prev => ({
+          ...prev,
+          nortEast: e.layer._bounds._northEast,
+          southWest: e.layer._bounds._southWest,
+        }))
+      }
+
+      map.pm.addControls({
+        drawRectangle: false,
+        drawCircle: false,
+      })
       // shape.layer.pm.enable();
 
-      // console.log(`object created: ${shape.layer.pm.getShape()}`);
-
-      // Set popup
       map.pm
         .getGeomanLayers()
-        .map((layer, index) => layer.bindPopup(selectedStrat));
+        .map((layer, index) => layer.bindPopup("popup"));
 
-      // On shape edit
       shape.layer.on("pm:edit", (e) => {
-        console.log('edited')
+        if(e.shape === "Circle"){
+          setSelectedStrat(prev => ({
+            ...prev,
+            shape: e.shape,
+            latlng: e.layer._latlng,
+            radius: e.layer.options.radius,
+          }))
+        }
+  
+        if(e.shape === "Rectangle"){
+          setSelectedStrat(prev => ({
+            ...prev,
+            nortEast: e.layer._bounds._northEast,
+            southWest: e.layer._bounds._southWest,
+          }))
+        }
       });
     });
 
-    // On shape remove
     map.on("pm:remove", (e) => {
-      console.log("removed");
+      map.pm.addControls({
+        drawRectangle: true,
+        drawCircle: true,
+      })
     });
 
     return () => {
       map.pm.removeControls();
       // map.pm.setGlobalOptions({ pmIgnore: true });
     };
-  }, [context, selectedStrat]);
+  }, [context, setSelectedStrat]);
 
   return (
     null

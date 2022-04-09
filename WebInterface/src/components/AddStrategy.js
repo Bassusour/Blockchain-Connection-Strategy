@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { StratContext } from '../App';
 import Map from './Map'
-import { Link } from 'react-router-dom';
 import {
   Circle,
   CircleMarker,
@@ -13,40 +13,39 @@ import {
 } from 'react-leaflet'
 import '../App.css';
 
-
-const fillBlueOptions = { fillColor: 'blue' }
-const blackOptions = { color: 'black' }
-const limeOptions = { color: 'lime' }
-const purpleOptions = { color: 'purple' }
-const redOptions = { color: 'red' }
-
-function eatFood() {
-  console.log("nom")
-}
-
 function AddStrategy() {
   const zoomLv = 13;
-  const [selectedStrat, setSelectedStrat] = useState("No strategy selected")
-  const center = [51.505, -0.09]
+  var { selectedStrat, setSelectedStrat } = useContext(StratContext)
+  const initialPos = [55.78373878553941, 12.518501326376303];
+
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target[2].value);
+    setSelectedStrat(prev => ({
+      ...prev,
+      name: e.target[0].value,
+      priority: e.target[1].value,
+      description: e.target[2].value,
+      connection_type: e.target[3].value,
+      start_date: e.target[4].value,
+      start_time: e.target[5].value,
+      end_date: e.target[6].value,
+      end_time: e.target[7].value,
+    }))
   };
 
   return (
       <div className="backgroundd" id="addStrategy">
         <div className='map'>
-        <MapContainer center={center} zoom={zoomLv} id='map'>
+        <MapContainer center={initialPos} zoom={zoomLv} id='map'>
           <TileLayer
             url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             maxZoom={20}
           />
-          {/* <Circle center={center} pathOptions={fillBlueOptions} radius={200} /> */}
+          {/* Load current strategies here */}
           <Map/>
         </MapContainer>
         </div>
-
 
         <form className="inputs" onSubmit={handleSubmit}>
           <label htmlFor="stratName">Strategy name</label><br/>
@@ -54,7 +53,7 @@ function AddStrategy() {
           <label htmlFor="prio">Priority</label><br/>
           <input type="number" id="prio" name="prio"/><br/>
           <label htmlFor="desc">Description</label><br/>
-          <textarea name="Text1" cols="40" rows="5"></textarea><br/>
+          <textarea name="desc" cols="40" rows="5"></textarea><br/>
           <label htmlFor="desc">Connection type</label><br/>
           <input type="text" id="connectionType" name="connectionType"/><br/>
           <label htmlFor="startDate">Startdate</label><br/>
@@ -70,6 +69,5 @@ function AddStrategy() {
       </div>
 );
 }
-
 
 export default AddStrategy;

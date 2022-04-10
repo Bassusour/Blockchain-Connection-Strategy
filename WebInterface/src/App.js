@@ -5,10 +5,9 @@ import { HashRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
-import About from './components/About';
-import AddStrategy from './components/AddStrategy';
+import AddStrategy from './components/addStrategy/AddStrategy';
 import ChangeStrategy from './components/currentStrategies/StrategyGrid';
-import Footer from './components/Footer';
+import Footer from './components/footer/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
 import {

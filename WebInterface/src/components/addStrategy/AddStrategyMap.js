@@ -3,7 +3,7 @@ import { useLeafletContext } from "@react-leaflet/core";
 import L from 'leaflet'
 import "@geoman-io/leaflet-geoman-free";
 import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
-import { StratContext } from '../App';
+import { StratContext } from '../../App';
 
 const stratColorMap = {
   "Strategy #1": 'orange',

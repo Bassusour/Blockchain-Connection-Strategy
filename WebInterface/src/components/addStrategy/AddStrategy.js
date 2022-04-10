@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { StratContext } from '../App';
-import Map from './Map'
+import { StratContext } from '../../App';
+import Map from './AddStrategyMap'
 import {
   Circle,
   CircleMarker,
@@ -11,7 +11,7 @@ import {
   Rectangle,
   TileLayer,i
 } from 'react-leaflet'
-import '../App.css';
+import '../../App.css';
 
 function AddStrategy() {
   const zoomLv = 13;

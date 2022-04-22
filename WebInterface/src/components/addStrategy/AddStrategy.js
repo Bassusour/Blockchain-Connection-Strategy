@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Map from './Map'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { StratContext } from '../../App';
+import Map from './AddStrategyMap'
 import {
   Circle,
   CircleMarker,
@@ -11,27 +11,26 @@ import {
   Rectangle,
   TileLayer,i
 } from 'react-leaflet'
-import '../App.css';
-
-
-const fillBlueOptions = { fillColor: 'blue' }
-const blackOptions = { color: 'black' }
-const limeOptions = { color: 'lime' }
-const purpleOptions = { color: 'purple' }
-const redOptions = { color: 'red' }
-
-function eatFood() {
-  console.log("nom")
-}
+import '../../App.css';
 
 function AddStrategy() {
   const zoomLv = 13;
-  const [selectedStrat, setSelectedStrat] = useState("No strategy selected")
-  const center = [51.505, -0.09]
+  var { selectedStrat, setSelectedStrat } = useContext(StratContext)
+  const initialPos = [55.78373878553941, 12.518501326376303];
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(e.target[2].value);
+    setSelectedStrat(prev => ({
+      ...prev,
+      name: e.target[0].value,
+      priority: e.target[1].value,
+      description: e.target[2].value,
+      connection_type: e.target[3].value,
+      start_date: e.target[4].value,
+      start_time: e.target[5].value,
+      end_date: e.target[6].value,
+      end_time: e.target[7].value,
+    }))
   };
 
   return (
@@ -39,7 +38,7 @@ function AddStrategy() {
       <div className="background" id="addStrategy">
         
         <div className='map'>
-        <MapContainer center={center} zoom={zoomLv} id='map'>
+        <MapContainer center={initialPos} zoom={zoomLv} id='map'>
           <TileLayer
             url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -72,6 +71,5 @@ function AddStrategy() {
         </div>
       </div>);
 }
-
 
 export default AddStrategy;

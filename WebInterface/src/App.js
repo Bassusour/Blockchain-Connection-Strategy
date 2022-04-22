@@ -5,13 +5,12 @@ import { HashRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import './App.css'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
-import About from './components/About';
-import AddStrategy from './components/AddStrategy';
-import ChangeStrategy from './components/selectStrategy/ChangeStrategy';
-import Footer from './components/Footer';
+import AddStrategy from './components/addStrategy/AddStrategy';
+import ChangeStrategy from './components/currentStrategies/StrategyGrid';
+import Footer from './components/footer/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
-  import {
+import {
   Circle,
   CircleMarker,
   MapContainer,
@@ -27,21 +26,20 @@ const StratContext = createContext();
 function App() {
   const initialPos = [55.78373878553941, 12.518501326376303];
   const zoomLv = 13;
-  const [selectedStrat, setSelectedStrat] = useState("No strategy selected")
+  const [selectedStrat, setSelectedStrat] = useState({name: 'no strategy selected'})
 
-const center = [51.505, -0.09]
+/* const center = [51.505, -0.09] */
 
-
-const rectangle = [
+/* const rectangle = [
   [51.49, -0.08],
   [51.5, -0.06],
-]
+] */
 
-const fillBlueOptions = { fillColor: 'blue' }
+/* const fillBlueOptions = { fillColor: 'blue' }
 const blackOptions = { color: 'black' }
 const limeOptions = { color: 'lime' }
 const purpleOptions = { color: 'purple' }
-const redOptions = { color: 'red' }
+const redOptions = { color: 'red' } */
 
   return (
     <>
@@ -51,21 +49,20 @@ const redOptions = { color: 'red' }
     <StratContext.Provider value={{ selectedStrat, setSelectedStrat }}>
       <div className="background">
         <div className='map'>
-        <MapContainer center={center} zoom={zoomLv} id='map'>
+        <MapContainer center={initialPos} zoom={zoomLv} id='map'>
           <TileLayer
             url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             maxZoom={20}
           />
-          <Circle center={center} pathOptions={fillBlueOptions} radius={200} />
-      <CircleMarker
-        center={[51.51, -0.12]}
-        pathOptions={redOptions}
-        radius={20}>
-        <Popup>Popup in CircleMarker</Popup>
-      </CircleMarker>
-      <Rectangle bounds={rectangle} pathOptions={blackOptions} />
-          {/* <Map /> */}
+        {/* <Circle center={center} pathOptions={fillBlueOptions} radius={200} />
+        <CircleMarker
+          center={[51.51, -0.12]}
+          pathOptions={redOptions}
+          radius={20}>
+          <Popup>Popup in CircleMarker</Popup>
+        </CircleMarker>
+        <Rectangle bounds={rectangle} pathOptions={blackOptions} /> */}
         </MapContainer>
         </div>
         <div className="changestrategy">
@@ -73,7 +70,7 @@ const redOptions = { color: 'red' }
         </div>
       </div>
       
-    <AddStrategy/>
+      <AddStrategy/>
     </StratContext.Provider>
     
     <Footer/>
@@ -81,6 +78,7 @@ const redOptions = { color: 'red' }
   );
 }
 
-export {App,
-        StratContext
+export {
+  App,
+  StratContext
 }

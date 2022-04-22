@@ -2,8 +2,9 @@
   height: 90vh;
   width: 50vw;
   display: inline-block;
-  vertical-align: middle;
-    background-color: black;
+  vertical-align:top;
+  /* vertical-align: middle; */
+  background-color: black;
 }
 
 .leaflet-container {
@@ -37,12 +38,13 @@
   /* width: 100vw; */
   background-color: grey;
   /* max-width:100%;   */
+  text-align: center;
 }
 .backgroundd {
-  height: 110vh;
+  height: 100vh;
   width: 100vw;
   background-color: aquamarine;
-  /* text-align: center; */
+  text-align: center;
 }
 
 .App-header {
@@ -294,9 +296,17 @@ border-radius: 5px; */
 
 .inputs {
   display: inline-block;
-  background-color: red;
-  margin-left: 10vw;
+  background-color: white;
+  border: 3px solid orangered;
+  /* margin: auto; */
+  /* width: 30%; */
+  vertical-align: middle;
   /* margin-top: 10vh; */
+  text-align:left;
+  margin-left: 8.5%;
+  margin-right: 8.5%;
+  margin-top: -1%;
+  padding: 2.5%
 }
 
 #desc

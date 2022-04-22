@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,38 +20,50 @@ public class Client {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
         strategyContract = new StorageCreater().create();
-        setStartegies();
+        setStrategies();
         Flowable<AddStrategyEventResponse> flow = strategyContract.addStrategyEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
         flow.subscribe(event -> {
-            SixG_Strategy.Strategy strategy = event.strategy;
-            strategies.add(strategy);
+            setStrategies();
             active_strategy = chooseActiveStrategy();
             enableStrategy();
         });
 
         boolean running = true;
         while(running){
+            System.out.println("We runnin / sleeping");
             TimeUnit.SECONDS.sleep(10);
+            checkActiveStrategy();
         }
     }
 
-    public static void setStartegies() throws Exception{
+    public static void setStrategies() throws Exception{
         strategies = strategyContract.getStrategies().send();
     }
 
     public static Strategy chooseActiveStrategy(){
         long now = System.currentTimeMillis() / 1000L;
+        Strategy returnStrat = null;
         for(Strategy strat : strategies){
+            System.out.println("aloo");
             if(now > strat.startDate.longValue() && now < strat.endDate.longValue() && 
-                ( active_strategy == null || strat.priority.intValue() > active_strategy.priority.intValue())) {
-                return strat;
+                ( returnStrat == null || strat.priority.intValue() > returnStrat.priority.intValue())) {
+                    System.out.println("aloo in");
+                    returnStrat = strat;
             }
         }
-        return null; 
+        return returnStrat; 
     }
 
     public static void enableStrategy(){
+        if(active_strategy != null)
         System.out.println("Connection: " + active_strategy.connectionType);
+    }
+
+    public static void checkActiveStrategy() {
+        if(active_strategy.endDate.longValue() < (System.currentTimeMillis() / 1000L)){
+            active_strategy = chooseActiveStrategy();
+            enableStrategy();
+        }
     }
 
 }

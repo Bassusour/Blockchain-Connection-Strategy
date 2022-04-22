@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "Application/lib/web3j-cli-1.4.1-all.jar"
+    ]
+}

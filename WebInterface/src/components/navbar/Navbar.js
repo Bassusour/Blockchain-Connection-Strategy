@@ -27,17 +27,17 @@ function Nav() {
         <Link smooth to="#map"  
               scroll={el => scrollWithOffset(el)}
               className="navigationLink">
-          Connection strategy
+          Current Strategies
         </Link>
         {/* <Link smooth to="#map" 
               className="navigationLink"
               scroll={el => scrollWithOffset(el)}>
           Map
         </Link> */}
-        <Link smooth to="#contact" 
+        <Link smooth to="#addStrategy" 
               className="navigationLink"
               scroll={el => scrollWithOffset(el)}>
-          Contact
+          Add Strategy
         </Link>
       </div>
     </div>

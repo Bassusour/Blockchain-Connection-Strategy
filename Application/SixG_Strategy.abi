@@ -1,59 +1,8 @@
 [
 	{
 		"anonymous": false,
-		"inputs": [
-			{
-				"components": [
-					{
-						"components": [
-							{
-								"internalType": "uint32",
-								"name": "x",
-								"type": "uint32"
-							},
-							{
-								"internalType": "uint32",
-								"name": "y",
-								"type": "uint32"
-							},
-							{
-								"internalType": "uint32",
-								"name": "radius",
-								"type": "uint32"
-							}
-						],
-						"internalType": "struct SixG_Strategy.Location",
-						"name": "location",
-						"type": "tuple"
-					},
-					{
-						"internalType": "uint256",
-						"name": "startDate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "endDate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "connectionType",
-						"type": "string"
-					},
-					{
-						"internalType": "uint8",
-						"name": "priority",
-						"type": "uint8"
-					}
-				],
-				"indexed": false,
-				"internalType": "struct SixG_Strategy.Strategy",
-				"name": "strategy",
-				"type": "tuple"
-			}
-		],
-		"name": "addStrategy",
+		"inputs": [],
+		"name": "strategyChange",
 		"type": "event"
 	},
 	{
@@ -64,7 +13,7 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "enum SixG_Strategy.Priority",
 				"name": "priority",
 				"type": "uint8"
 			}
@@ -139,12 +88,12 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
+						"internalType": "enum SixG_Strategy.ConnectionType",
 						"name": "connectionType",
-						"type": "string"
+						"type": "uint8"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "enum SixG_Strategy.Priority",
 						"name": "priority",
 						"type": "uint8"
 					}
@@ -202,12 +151,12 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "string",
+						"internalType": "enum SixG_Strategy.ConnectionType",
 						"name": "connectionType",
-						"type": "string"
+						"type": "uint8"
 					},
 					{
-						"internalType": "uint8",
+						"internalType": "enum SixG_Strategy.Priority",
 						"name": "priority",
 						"type": "uint8"
 					}
@@ -261,12 +210,12 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "string",
+				"internalType": "enum SixG_Strategy.ConnectionType",
 				"name": "connectionType",
-				"type": "string"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "enum SixG_Strategy.Priority",
 				"name": "priority",
 				"type": "uint8"
 			}
@@ -319,24 +268,17 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "string",
+				"internalType": "enum SixG_Strategy.ConnectionType",
 				"name": "connectionType",
-				"type": "string"
+				"type": "uint8"
 			},
 			{
-				"internalType": "uint8",
+				"internalType": "enum SixG_Strategy.Priority",
 				"name": "priority",
 				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "updateArray",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

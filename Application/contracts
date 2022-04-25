@@ -1,6 +1,6 @@
 0x919b464078AAB324027C609092243ed913e41B48 Storage
 
-web3j generate solidity -b=storage.bin -a=storage.abi -o src -p jp.ethereum.contracts
+web3j generate solidity -b=SixG_Strategy.bin -a=SixG_Strategy.abi -o src -p ethereum
 
 Byte code Storage
 {

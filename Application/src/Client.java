@@ -1,29 +1,24 @@
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.request.EthFilter;
-
 import io.reactivex.Flowable;
-import net.sf.saxon.expr.instruct.Choose;
 import ethereum.*;
-import ethereum.SixG_Strategy.AddStrategyEventResponse;
+import ethereum.SixG_Strategy.StrategyChangeEventResponse;
 import ethereum.SixG_Strategy.Strategy;
 
 public class Client {
     static SixG_Strategy strategyContract;
     static Strategy active_strategy;
     static List<Strategy> strategies;
-    Runtime runtime = Runtime.getRuntime();
+    static Runtime runtime = Runtime.getRuntime();
 
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
         strategyContract = new StorageCreater().create();
-        setStartegies();
-        Flowable<AddStrategyEventResponse> flow = strategyContract.addStrategyEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
+        setStrategies();
+        Flowable<StrategyChangeEventResponse> flow = strategyContract.strategyChangeEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
         flow.subscribe(event -> {
-            SixG_Strategy.Strategy strategy = event.strategy;
-            strategies.add(strategy);
+            setStrategies();
             active_strategy = chooseActiveStrategy();
             enableStrategy();
         });
@@ -31,26 +26,36 @@ public class Client {
         boolean running = true;
         while(running){
             TimeUnit.SECONDS.sleep(10);
+            checkActiveStrategy();
         }
     }
 
-    public static void setStartegies() throws Exception{
+    public static void setStrategies() throws Exception{
         strategies = strategyContract.getStrategies().send();
     }
 
     public static Strategy chooseActiveStrategy(){
         long now = System.currentTimeMillis() / 1000L;
+        Strategy returnStrat = null;
         for(Strategy strat : strategies){
             if(now > strat.startDate.longValue() && now < strat.endDate.longValue() && 
-                ( active_strategy == null || strat.priority.intValue() > active_strategy.priority.intValue())) {
-                return strat;
+                ( returnStrat == null || strat.priority.intValue() > returnStrat.priority.intValue())) {
+                    returnStrat = strat;
             }
         }
-        return null; 
+        return returnStrat; 
     }
 
     public static void enableStrategy(){
+        if(active_strategy != null)
         System.out.println("Connection: " + active_strategy.connectionType);
+    }
+
+    public static void checkActiveStrategy() {
+        if(active_strategy.endDate.longValue() < (System.currentTimeMillis() / 1000L)){
+            active_strategy = chooseActiveStrategy();
+            enableStrategy();
+        }
     }
 
 }

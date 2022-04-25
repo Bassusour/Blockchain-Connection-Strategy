@@ -38,7 +38,7 @@
   /* width: 100vw; */
   background-color: grey;
   /* max-width:100%;   */
-  text-align: center;
+  /* text-align: center; */
 }
 .backgroundd {
   height: 100vh;
@@ -305,7 +305,6 @@ border-radius: 5px; */
   text-align:left;
   margin-left: 8.5%;
   margin-right: 8.5%;
-  margin-top: -1%;
   padding: 2.5%
 }
 
@@ -313,4 +312,14 @@ border-radius: 5px; */
 {
     height:100px;
     font-size:14pt;
+}
+
+.test {
+  width: 40vw;
+  height: 10vh;
+  background-color: white;
+}
+
+.test2 {
+  background-color: aqua;
 }

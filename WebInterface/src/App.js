@@ -6,7 +6,7 @@ import './App.css'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
 import AddStrategy from './components/addStrategy/AddStrategy';
-import ChangeStrategy from './components/currentStrategies/StrategyGrid';
+import StrategyGrid from './components/currentStrategies/StrategyGrid';
 import Footer from './components/footer/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
@@ -49,6 +49,7 @@ const redOptions = { color: 'red' } */
     <StratContext.Provider value={{ selectedStrat, setSelectedStrat }}>
       <div className="background">
         <div className='map'>
+
         <MapContainer center={initialPos} zoom={zoomLv} id='map'>
           <TileLayer
             url="https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png"
@@ -62,11 +63,12 @@ const redOptions = { color: 'red' } */
           radius={20}>
           <Popup>Popup in CircleMarker</Popup>
         </CircleMarker>
-        <Rectangle bounds={rectangle} pathOptions={blackOptions} /> */}
+        <Rectangle bounds={rectangle} pathOptions={blackOptions} />  */}
         </MapContainer>
-        </div>
+        </div> 
+        
         <div className="changestrategy">
-          <ChangeStrategy/>
+          <StrategyGrid/>
         </div>
       </div>
       

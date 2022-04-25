@@ -21,17 +21,11 @@ public class StorageCreater {
     public static Web3j web3j;
 
     public SixG_Strategy create() throws IOException, CipherException{
-        System.out.println("Hello, World!");
-        //Web3j web3j = Web3j.build(new UnixIpcService("/home/devlechain/chainData/ethereum/69_30000_ethash_0/geth.ipc"));
         web3j = Web3j.build(new HttpService("http://127.0.0.1:8545"));
-        cr = WalletUtils.loadCredentials("code", "/home/devlechain/chainData/ethereum/70_10000_ethash_0/keystore/UTC--2022-04-08T12-22-27.851489297Z--efd4f098753ecc59782468538d66345432e5f640");
+        cr = WalletUtils.loadCredentials(EthBasis.password, EthBasis.credentials);
         tm = new RawTransactionManager(web3j, cr);
         cgp = new DefaultGasProvider();
         strategyContract = SixG_Strategy.load(address, web3j, tm, cgp);
         return strategyContract;
-    }
-
-    public Web3j getWeb3() {
-        return web3j;
     }
 }

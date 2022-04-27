@@ -26,14 +26,14 @@ const StratContext = createContext();
 function App() {
   const initialPos = [55.78373878553941, 12.518501326376303];
   const zoomLv = 13;
-  const [selectedStrat, setSelectedStrat] = useState({name: 'no strategy selected'})
+  const [newStrat, setNewStrat] = useState({name: 'no strategy selected'})
 
 /* const center = [51.505, -0.09] */
 
-/* const rectangle = [
+const rectangle = [
   [51.49, -0.08],
   [51.5, -0.06],
-] */
+]
 
 /* const fillBlueOptions = { fillColor: 'blue' }
 const blackOptions = { color: 'black' }
@@ -46,7 +46,7 @@ const redOptions = { color: 'red' } */
     <Nav/>
     <Home/>
     {/* Current strategies */}
-    <StratContext.Provider value={{ selectedStrat, setSelectedStrat }}>
+    <StratContext.Provider value={{ selectedStrat: newStrat, setSelectedStrat: setNewStrat }}>
       <div className="background">
         <div className='map'>
 
@@ -56,14 +56,14 @@ const redOptions = { color: 'red' } */
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             maxZoom={20}
           />
-        {/* <Circle center={center} pathOptions={fillBlueOptions} radius={200} />
+        <Circle center={initialPos} /* pathOptions={fillBlueOptions} */ radius={200} />
         <CircleMarker
-          center={[51.51, -0.12]}
-          pathOptions={redOptions}
+          center={[55.98373878553941, 12.518501326376303]}
+          /* pathOptions={redOptions} */
           radius={20}>
           <Popup>Popup in CircleMarker</Popup>
         </CircleMarker>
-        <Rectangle bounds={rectangle} pathOptions={blackOptions} />  */}
+        <Rectangle bounds={rectangle} /* pathOptions={blackOptions} */ /> 
         </MapContainer>
         </div> 
         

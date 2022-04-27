@@ -91,7 +91,8 @@ function Map() {
             ...prev,
             nortEast: e.layer._bounds._northEast,
             southWest: e.layer._bounds._southWest,
-          }))
+          }
+          ))
         }
       });
     });

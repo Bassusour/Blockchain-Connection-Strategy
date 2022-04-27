@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StratContext } from '../../App';
 import Map from './AddStrategyMap'
+import Greeter from '../../artifacts/contracts/Greeter.sol/Greeter.json'
+import { ethers } from 'ethers'
 import {
   Circle,
   CircleMarker,
@@ -17,8 +19,9 @@ function AddStrategy() {
   const zoomLv = 13;
   var { selectedStrat, setSelectedStrat } = useContext(StratContext)
   const initialPos = [55.78373878553941, 12.518501326376303];
+  const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setSelectedStrat(prev => ({
       ...prev,
@@ -31,6 +34,17 @@ function AddStrategy() {
       end_date: e.target[6].value,
       end_time: e.target[7].value,
     }))
+
+    const provider = new ethers.providers.JsonRpcProvider();
+    const signer = provider.getSigner("0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199")
+    // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
+
+    const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)
+    /* console.log(selectedStrat.latlng.lng+"")
+    console.log(selectedStrat.radius+"") */
+    const transaction = await contract.setCircle(selectedStrat.latlng.lat+"", selectedStrat.latlng.lat+"", selectedStrat.radius+"")
+
+    await transaction.wait()
   };
 
   return (

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StratContext } from '../../App';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import Map from './AddStrategyMap'
 import Greeter from '../../artifacts/contracts/Greeter.sol/Greeter.json'
 import { ethers } from 'ethers'
@@ -15,15 +14,18 @@ import {
 } from 'react-leaflet'
 import '../../App.css';
 
+const StratContext = createContext();
+
 function AddStrategy() {
   const zoomLv = 13;
-  var { selectedStrat, setSelectedStrat } = useContext(StratContext)
+  // var { selectedStrat, setSelectedStrat } = useContext(StratContext)
   const initialPos = [55.78373878553941, 12.518501326376303];
   const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  const [newStrat, setNewStrat] = useState({name: 'no strategy selected'})
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setSelectedStrat(prev => ({
+    setNewStrat(prev => ({
       ...prev,
       name: e.target[0].value,
       priority: e.target[1].value,
@@ -40,13 +42,14 @@ function AddStrategy() {
     // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
 
     const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)
-    const transaction = await contract.setCircle(selectedStrat.latlng.lat+"", selectedStrat.latlng.lng+"", selectedStrat.radius+"")
+    const transaction = await contract.setCircle(newStrat.latlng.lat+"", newStrat.latlng.lng+"", newStrat.radius+"")
 
     await transaction.wait()
   };
 
   return (
     
+      <StratContext.Provider value={{ selectedStrat: newStrat, setSelectedStrat: setNewStrat }}>
       <div className="background" id="addStrategy">
         
         <div className='map'>
@@ -81,7 +84,10 @@ function AddStrategy() {
             <input htmlFor="asdf" type="submit" value="Submit"></input>
           </form>
         </div>
-      </div>);
+      </div>
+      </StratContext.Provider>
+      );
 }
 
-export default AddStrategy;
+export {AddStrategy,
+        StratContext};

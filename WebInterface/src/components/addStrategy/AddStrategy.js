@@ -40,9 +40,7 @@ function AddStrategy() {
     // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
 
     const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer)
-    /* console.log(selectedStrat.latlng.lng+"")
-    console.log(selectedStrat.radius+"") */
-    const transaction = await contract.setCircle(selectedStrat.latlng.lat+"", selectedStrat.latlng.lat+"", selectedStrat.radius+"")
+    const transaction = await contract.setCircle(selectedStrat.latlng.lat+"", selectedStrat.latlng.lng+"", selectedStrat.radius+"")
 
     await transaction.wait()
   };

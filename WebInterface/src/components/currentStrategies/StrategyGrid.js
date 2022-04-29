@@ -101,15 +101,14 @@ class StrategyGrid extends React.PureComponent {
     var data = ""
     try {
       data = await contract.getCircle()
-      
-      console.log("Data: " + data)
+      console.log("Data from strategyGrid: " + data)
     } catch(error) {
       console.log("Error: " + error)
     }
 
     this.setState({ 
       items: [{
-        name: "test3",
+        name: data,
         desc: "desc3"
       }].map(function(element, index, list) {
         return {

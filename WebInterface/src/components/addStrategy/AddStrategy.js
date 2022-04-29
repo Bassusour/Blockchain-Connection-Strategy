@@ -18,7 +18,6 @@ const StratContext = createContext();
 
 function AddStrategy() {
   const zoomLv = 13;
-  // var { selectedStrat, setSelectedStrat } = useContext(StratContext)
   const initialPos = [55.78373878553941, 12.518501326376303];
   const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
   const [newStrat, setNewStrat] = useState({name: 'no strategy selected'})
@@ -59,7 +58,6 @@ function AddStrategy() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             maxZoom={20}
           />
-          {/* <Circle center={center} pathOptions={fillBlueOptions} radius={200} />  */}
           <Map/>
         </MapContainer>
         </div>
@@ -77,9 +75,9 @@ function AddStrategy() {
             <input type="date" id="startDate" name="startDate"/>
             <label htmlFor="startTime">StartTime</label>
             <input type="time" id="startTime" name="startTime"/><br/>
-            <label htmlFor="endDate">enddate</label><br/>
+            <label htmlFor="endDate">Enddate</label><br/>
             <input type="date" id="endDate" name="endDate"/>
-            <label htmlFor="endTime">endTime</label>
+            <label htmlFor="endTime">EndTime</label>
             <input type="time" id="endTime" name="endTime"/><br/>
             <input htmlFor="asdf" type="submit" value="Submit"></input>
           </form>

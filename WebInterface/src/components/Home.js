@@ -59,31 +59,6 @@ function Home() {
           <p>Description of current strategy</p>
         </div>
       </div>
-      
-    //   <div className="background">
-    //     <div className="App">
-    //         <div >
-    //             <div className="description">
-    //              <h1>Greeter.sol</h1>
-    //          </div>
-    //         <div className='costum-buttons'>
-    //         <button
-    //             onClick={fetchGreeting}>
-    //             Get Greeting
-    //         </button>
-    //         <button
-    //             onClick={setGreeting}>
-    //             Set Greeting
-    //         </button>
-    //       </div>
-    //       <input 
-    //         placeholder='Set Greeting'
-    //         onChange={(e) => setMessage(e.target.value)}
-    //         value={message}
-    //       ></input>
-    //     </div>
-    //   </div> 
-    // </div>
     )
 }
 

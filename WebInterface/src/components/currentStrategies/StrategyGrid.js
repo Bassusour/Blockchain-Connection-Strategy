@@ -5,11 +5,12 @@ import '/node_modules/react-grid-layout/css/styles.css'
 import '/node_modules/react-resizable/css/styles.css'
 import Greeter from '../../artifacts/contracts/Greeter.sol/Greeter.json'
 import { ethers } from 'ethers'
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-/**
- * This layout demonstrates how to use a grid with a dynamic number of elements.
- */
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
+const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
+const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)
+
 class StrategyGrid extends React.PureComponent {
   static defaultProps = {
     className: "test",
@@ -21,27 +22,19 @@ class StrategyGrid extends React.PureComponent {
     super(props);
 
     this.state = {
-      items: [{
-        name: "name1",
-        desc: "desc1"
-      }, {
-        name: "name2",
-        desc: "desc2"
-      }].map(function(element, index) {
-        return {
-          name: element.name,
-          desc: element.desc,
-          x: (index * 2) % 10,
-          y: 0,
-          w: 2,
-          h: 2,
-          static: true
-        };
-      }),
-      newCounter: 0
+      items: [],
+      // .map(function(element, index) {
+      //   return {
+      //     name: element.name,
+      //     desc: element.desc,
+      //     x: (index * 2) % 10,
+      //     y: 0,
+      //     w: 2,
+      //     h: 2,
+      //     static: true
+      //   };
+      // }),
     };
-    this.onAddItem = this.onAddItem.bind(this);
-    /* this.onRemoveItem = this.onRemoveItem.bind(this) */
     this.updateCurrentStrategies = this.updateCurrentStrategies.bind(this)
   }
 
@@ -53,67 +46,31 @@ class StrategyGrid extends React.PureComponent {
       cursor: "pointer"
     };
     return (
-      <div className = "test2" key={element.name} data-grid={element}>
-        <span className="text">{element.name}</span>
-          {/* { this.onRemoveItem.bind(this, el) } */}
-        <span
-          className="remove"
-          style={removeStyle}
-          // onClick={this.onRemoveItem.bind(this, el)}
-        >
-          x
-        </span>
+      <div className = "test2" key={element.lat} data-grid={element}>
+        <span>{element.lat} {element.lng} {element.radius}</span>
       </div>
     );
   }
 
-  onAddItem() {
-    // console.log("adding", "n" + this.state.newCounter);
-    // console.log("cols: " + this.state.cols);
-    // console.log(this.state.items.length)
-    this.setState({
-      // Add a new item. It must have a unique key!
-      items: this.state.items.concat({
-        name: "n" + this.state.newCounter,
-        desc: "blabla",
-        x: (this.state.items.length * 2) % (10),
-        y: -Infinity, 
-        w: 2,
-        h: 2
-      }),
-      // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
-    });
-  }
+  updateCurrentStrategies(){
+    provider.on("block", async (blockNumber) => {
+      var _data = await contract.getCircle()
+      _data = _data.split(", ")
 
-  /* onRemoveItem() {
-    this.setState({
-      items: _.reject(this.state.items, { i: "name1" })
-    })
-    console.log(this.state.items)
-  } */
-
-  async updateCurrentStrategies(){
-    const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-
-    const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-    const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)
-    var data = ""
-    try {
-      data = await contract.getCircle()
-      console.log("Data from strategyGrid: " + data)
-    } catch(error) {
-      console.log("Error: " + error)
-    }
+      if(_data[0] === ""){
+        return 
+      } 
 
     this.setState({ 
       items: [{
-        name: data,
-        desc: "desc3"
+        lat: _data[0],
+        lng: _data[1],
+        radius: _data[2]
       }].map(function(element, index, list) {
         return {
-          name: element.name,
-          desc: element.desc,
+          lat: element.lat,
+          lng: element.lng,
+          radius: element.radius,
           x: (index * 2) % 10,
           y: 0,
           w: 2,
@@ -122,13 +79,14 @@ class StrategyGrid extends React.PureComponent {
         };
       })
     })
+    })
+    return null
   }
 
   render() {
     return (
       <div>
-        {/* <button onClick={this.onAddItem}>Add Item</button> */}
-        <button onClick={this.updateCurrentStrategies}>Update list</button>
+        <div>{this.updateCurrentStrategies()}</div>
         <ResponsiveReactGridLayout
           onLayoutChange={this.onLayoutChange}
           {...this.props}

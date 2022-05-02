@@ -1,4 +1,3 @@
-import Web3 from 'web3'
 import React from 'react'
 import Nav from './components/navbar/Navbar'
 import Home from './components/Home'
@@ -8,7 +7,7 @@ import Footer from './components/footer/Footer';
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
 import { ethers } from 'ethers'
-import Greeter from './artifacts/contracts/Greeter.sol/Greeter.json'
+import SixG_Strategy from './artifacts/contracts/SixG_Strategy.sol/SixG_Strategy.json'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
 import { Circle, MapContainer, TileLayer } from 'react-leaflet'
@@ -25,37 +24,60 @@ L.Icon.Default.imagePath='leaflet_images/';
 
 const initialPos = [55.78373878553941, 12.518501326376303];
 const zoomLv = 13;
-const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
-const contract = new ethers.Contract(greeterAddress, Greeter.abi, provider)
+const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, provider)
+
+function getFloat(num) {
+  return num / (10 ** 5)
+}
+
+const fillOptions = {
+  0: "green",
+  1: "yellow",
+  2: "red"
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      strategies: [],
     };
   }
 
-  RenderCircle() {
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = (state,callback)=>{
+        return;
+    };
+}
+
+  getStrategies() {
     provider.on("block", async (blockNumber) => {
       console.log("blocknumber: " + blockNumber)
-      var _data = await contract.getCircle()
-      _data = _data.split(", ")
+      var _data = await contract.getStrategies()
 
-      if(_data[0] === ""){
+      if(_data.length === 0){
         return
       } 
 
       this.setState((state, props) => ({
-        ...state,
-        data: _data
+        // ...state,
+        strategies: _data
       }))
-    }) 
 
-    if (this.state.data.length > 0) {
-      return <Circle center={[parseFloat(this.state.data[0]), parseFloat(this.state.data[1])]} radius={parseFloat(this.state.data[2])} />
-    }
+      console.log(this.state.strategies)
+
+    // if (this.state.strategies.length > 0) {
+      // this.state.strategies.map(function(strategy, index, list) {
+        // console.log(index)
+        // console.log(getFloat(strategy.location[1])) 
+        // console.log("here")
+        // return <Circle key={index} center={[55, 12]} radius={10000} />
+      // })
+    // }
+    }) 
     // return null
   }
 
@@ -73,16 +95,29 @@ class App extends React.Component {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               maxZoom={20}
             />
-            <div>{this.RenderCircle()}</div>
+            {/* <Circle center={[55, 12]} radius={10000} /> */}
+            <div>{this.getStrategies()}</div>
+
+             {this.state.strategies.map((strategy, index) => 
+                <Circle key={index} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} radius={getFloat(strategy.location[2])}/>
+              )}
+
             </MapContainer>
           </div> 
           
           <div className="changestrategy">
-            <StrategyGrid/>
+            <StrategyGrid 
+              contractAddress = {contractAddress}
+              provider = {provider}
+              contract = {contract}/>
           </div>
         </div>
         
-        <AddStrategy/>
+        <AddStrategy
+          contractAddress = {contractAddress}
+          provider = {provider}
+          contract = {contract}
+          initialPos = {initialPos}/>
       <Footer/>
       </>
     );

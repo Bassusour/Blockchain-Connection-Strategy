@@ -18,16 +18,6 @@ function Map() {
   const context = useLeafletContext();
   const { selectedStrat, setSelectedStrat } = useContext(StratContext)
   const map = context.map;
-  // const container = L.map('map', { pmIgnore: false });
-  /* console.log(context) */
-  // context.marker([55.78373878553941, 12.518501326376303]).addTo(container);
-  
-  // if (map != undefined) { map.remove(); }
-
-  // const latLng = {lat: 55.78373878553941, lng: 12.518501326376303};
-  // const radius = 1401.7415305616735;
-  // const circle = L.circle(latLng,{radius:radius}).addTo(map);
-  // circle.pm.disable();
 
   useEffect(() => {
 

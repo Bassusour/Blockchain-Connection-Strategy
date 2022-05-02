@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Greeter from '../artifacts/contracts/Greeter.sol/Greeter.json'
+import Greeter from '../artifacts/contracts/SixG_Strategy.sol/SixG_Strategy.json'
 import { ethers } from 'ethers'
 import { Link } from 'react-router-dom';
 

@@ -1,4 +1,4 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useEffect } from 'react';
 import Map from './AddStrategyMap'
 import SixG_Strategy from '../../artifacts/contracts/SixG_Strategy.sol/SixG_Strategy.json'
 import { ethers } from 'ethers'
@@ -9,11 +9,64 @@ import {
 import '../../App.css';
 
 const StratContext = createContext();
+const prioToNum = {
+  "Low": 0,
+  "Medium": 1,
+  "High": 2
+}
+const connectionTypeToNum = {
+  "WiFi": 0,
+  "Data": 1
+}
 
 function AddStrategy(props) {
   const zoomLv = 13;
-  const {contractAddress, provider, initialPos} = props
-  const [newStrat, setNewStrat] = useState({name: 'no strategy selected'})
+  const {contractAddress, provider, contract, initialPos} = props
+  const [newStrat, setNewStrat] = useState({name: 'No strategy selected'})
+  const [estimatedGas, setEstimatedGas] = useState("Waiting for more information...")
+  const [gasPrice, setGasPrice] = useState(0)
+
+  useEffect( async () => {
+      const gasPrice = await provider.getGasPrice()
+      setGasPrice(gasPrice.toString())
+  }, [])
+
+  const getGas = async () => {
+    const formEl = document.forms.form 
+    if(formEl === undefined){
+      return
+    }
+    const formData = new FormData(formEl);
+    const name = formData.get('stratName');
+    const prio = formData.get('prio');
+    const desc = formData.get('desc');
+    const type = formData.get('connectionType');
+    const startDate = formData.get('startDate');
+    const startTime = formData.get('startTime');
+    const endDate = formData.get('endDate');
+    const endTime = formData.get('endTime');
+
+    if(name !== "" && prio !== "" && desc !== "" && type !== "" && startDate !== "" && startTime !== "" && endDate !== "" && endTime !== ""){
+      console.log("here")
+      const startTimeArr = startTime.split(":")
+      const endTimeArr = endTime.split(":")
+      const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
+      const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
+
+      // lat, lng, rad is always 5 numbers long, so specific value doesn't matter
+      const estimatedGas_ = await contract.estimateGas.makeStrategy(
+                                                    12345,
+                                                    12345,
+                                                    12345,
+                                                    start, 
+                                                    end,
+                                                    connectionTypeToNum[type],
+                                                    prioToNum[prio], 
+                                                    desc,
+                                                    name)
+      setEstimatedGas(estimatedGas_ + " units of gas")
+    }
+  }
 
   const handleSubmit = async e => {
     e.preventDefault(); //prevents refresh
@@ -26,7 +79,7 @@ function AddStrategy(props) {
     var endDate = e.target[6].value
     var endTime = e.target[7].value
 
-    if (name === "" || prio === "" || type === "" || startDate === "" || startTime === "" || endDate === "" || endTime === "") {
+    if (name === "" || startDate === "" || startTime === "" || endDate === "" || endTime === "") {
       alert("Please Fill All Required Field");
       return
     }
@@ -34,7 +87,7 @@ function AddStrategy(props) {
       alert("Please select area")
       return
     }
-    
+
     setNewStrat(prev => ({
       ...prev,
       name: name,
@@ -53,18 +106,23 @@ function AddStrategy(props) {
     const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber
     const end = e.target[6].valueAsNumber +  e.target[7].valueAsNumber
 
+    if(start > end) {
+      alert("Startdate is later than enddate")
+      return
+    }
+
     const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
-    const transaction = await contract.makeStrategy(newStrat.latlng.lng.toFixed(5) * (10 ** 5), 
+    const transaction = await contract.makeStrategy(
+                                                    newStrat.latlng.lng.toFixed(5) * (10 ** 5), 
                                                     newStrat.latlng.lat.toFixed(5) * (10 ** 5), 
                                                     newStrat.radius.toFixed(5) * (10 ** 5),
                                                     start, 
                                                     end,
-                                                    type,
-                                                    prio, 
+                                                    connectionTypeToNum[type],
+                                                    prioToNum[prio], 
                                                     desc,
-                                                    name
-                                                    )
-    await transaction.wait()
+                                                    name)
+    const receipt = await transaction.wait()
     e.target.reset();
   };
 
@@ -84,24 +142,33 @@ function AddStrategy(props) {
         </MapContainer>
         </div>
         <div className="inputs">
-          <form name="form" onSubmit={handleSubmit}>
+          <form name="form" id="form" onSubmit={handleSubmit}>
             <label htmlFor="stratName">Strategy name</label><br/>
-            <input type="text" id="stratName" name="stratName"/><br/>
+            <input type="text" id="stratName" name="stratName" onChange={getGas} maxLength="32"/><br/>
             <label htmlFor="prio">Priority</label><br/>
-            <input type="number" id="prio" name="prio"/><br/>
+            <select id="prio" name="prio"onChange={getGas} >
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
+            </select><br/>
             <label htmlFor="desc">Description</label><br/>
-            <textarea name="desc" cols="40" rows="5"></textarea><br/>
+            <input name="desc" onChange={getGas} maxLength="32"/><br/>
             <label htmlFor="connectionType">Connection type</label><br/>
-            <input type="text" id="connectionType" name="connectionType"/><br/>
+            <select id="connectionType" name="connectionType" onChange={getGas}>
+              <option value="WiFi">WiFi</option>
+              <option value="Data">Data</option>
+            </select><br/>
             <label htmlFor="startDate">Startdate</label><br/>
-            <input type="date" id="startDate" name="startDate"/>
+            <input type="date" id="startDate" name="startDate"onChange={getGas}/>
             <label htmlFor="startTime">StartTime</label>
-            <input type="time" id="startTime" name="startTime"/><br/>
+            <input type="time" id="startTime" name="startTime"onChange={getGas}/><br/>
             <label htmlFor="endDate">Enddate</label><br/>
-            <input type="date" id="endDate" name="endDate"/>
+            <input type="date" id="endDate" name="endDate"onChange={getGas}/>
             <label htmlFor="endTime">EndTime</label>
-            <input type="time" id="endTime" name="endTime"/><br/>
-            <input htmlFor="submit" type="submit" value="Submit"></input>
+            <input type="time" id="endTime" name="endTime"onChange={getGas}/><br/>
+            <input htmlFor="submit" type="submit" value="Submit"></input><br/><br/>
+            <label htmlFor="gasAmount"><b>Gas estimate: </b> {estimatedGas}</label><br/>
+            <label htmlFor="gasPrice"><b>Gas price: </b> {gasPrice + " wei"}</label>
           </form>
         </div>
       </div>

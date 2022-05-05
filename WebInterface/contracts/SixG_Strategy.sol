@@ -22,15 +22,15 @@ contract SixG_Strategy {
         uint endDate;
         ConnectionType connectionType;
         Priority priority;
-        string description;
-        string name;
+        bytes32 description;
+        bytes32 name;
     }
 
     Strategy[] public strategies;
     uint public length;
     event strategyChange();
 
-    constructor() public {
+    constructor() {
         owner = msg.sender;
     }
 
@@ -50,8 +50,8 @@ contract SixG_Strategy {
     function makeStrategy( int32 x, int32 y, uint32 radius, 
                             uint startDate, uint endDate, 
                             ConnectionType connectionType,
-                            Priority priority, string memory description,
-                            string memory name) public isOwner {
+                            Priority priority, bytes32 description,
+                            bytes32 name) public isOwner {
         Location memory location = Location(x, y , radius);
         Strategy memory strategy = Strategy(location, startDate, endDate, connectionType, priority, description, name);
         strategies.push(strategy);

@@ -116,14 +116,14 @@
 						"type": "uint8"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "description",
-						"type": "string"
+						"type": "bytes32"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "name",
-						"type": "string"
+						"type": "bytes32"
 					}
 				],
 				"internalType": "struct SixG_Strategy.Strategy[]",
@@ -189,14 +189,14 @@
 						"type": "uint8"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "description",
-						"type": "string"
+						"type": "bytes32"
 					},
 					{
-						"internalType": "string",
+						"internalType": "bytes32",
 						"name": "name",
-						"type": "string"
+						"type": "bytes32"
 					}
 				],
 				"internalType": "struct SixG_Strategy.Strategy",
@@ -258,14 +258,14 @@
 				"type": "uint8"
 			},
 			{
-				"internalType": "string",
+				"internalType": "bytes32",
 				"name": "description",
-				"type": "string"
+				"type": "bytes32"
 			},
 			{
-				"internalType": "string",
+				"internalType": "bytes32",
 				"name": "name",
-				"type": "string"
+				"type": "bytes32"
 			}
 		],
 		"name": "makeStrategy",
@@ -326,14 +326,14 @@
 				"type": "uint8"
 			},
 			{
-				"internalType": "string",
+				"internalType": "bytes32",
 				"name": "description",
-				"type": "string"
+				"type": "bytes32"
 			},
 			{
-				"internalType": "string",
+				"internalType": "bytes32",
 				"name": "name",
-				"type": "string"
+				"type": "bytes32"
 			}
 		],
 		"stateMutability": "view",

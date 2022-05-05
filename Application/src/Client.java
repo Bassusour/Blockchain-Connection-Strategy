@@ -1,3 +1,5 @@
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -16,6 +18,8 @@ public class Client {
         System.out.println("Hello, World!");
         strategyContract = new StorageCreater().create();
         setStrategies();
+        active_strategy = chooseActiveStrategy();
+        enableStrategy();
         Flowable<StrategyChangeEventResponse> flow = strategyContract.strategyChangeEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
         flow.subscribe(event -> {
             setStrategies();
@@ -26,6 +30,7 @@ public class Client {
         boolean running = true;
         while(running){
             TimeUnit.SECONDS.sleep(10);
+            if (active_strategy == null) continue;
             checkActiveStrategy();
         }
     }
@@ -49,6 +54,7 @@ public class Client {
     public static void enableStrategy(){
         if(active_strategy != null)
         System.out.println("Connection: " + active_strategy.connectionType);
+        System.out.println("Desc: " + new String(active_strategy.description, StandardCharsets.UTF_8));
     }
 
     public static void checkActiveStrategy() {

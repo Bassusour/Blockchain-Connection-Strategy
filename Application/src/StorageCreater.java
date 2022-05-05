@@ -14,14 +14,14 @@ import ethereum.SixG_Strategy;
 
 public class StorageCreater {
     static SixG_Strategy strategyContract;
-    static String address = "0x211409Cd22CC6D5Bee88567a6a43394a8395da92";
+    static String address = "0x025E14dDeEb3a617B32Fe7610F7D2127d43734a3";
     static TransactionManager tm;
     static Credentials cr;
     static ContractGasProvider cgp;
     public static Web3j web3j;
 
     public SixG_Strategy create() throws IOException, CipherException{
-        web3j = Web3j.build(new HttpService("http://127.0.0.1:8545"));
+        web3j = Web3j.build(new HttpService("http://127.0.0.1:8546"));
         cr = WalletUtils.loadCredentials(EthBasis.password, EthBasis.credentials);
         tm = new RawTransactionManager(web3j, cr);
         cgp = new DefaultGasProvider();

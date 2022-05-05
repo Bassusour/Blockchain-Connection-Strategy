@@ -1,3 +1,6 @@
 WebInterface/node_modules
 WebInterface/src/artifacts
 WebInterface/cache
+Application/src/EthBasis.java
+Application/SixG_Strategy.bin
+Application/SixG_Strategy.abi

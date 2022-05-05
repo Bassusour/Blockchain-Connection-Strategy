@@ -31,15 +31,23 @@ function AddStrategy(props) {
       setGasPrice(gasPrice.toString())
   }, [])
 
+  function toHex(str) {
+    var result = '';
+    for (var i=0; i<str.length; i++) {
+      result += str.charCodeAt(i).toString(16);
+    }
+    return result;
+  }
+
   const getGas = async () => {
     const formEl = document.forms.form 
     if(formEl === undefined){
       return
     }
     const formData = new FormData(formEl);
-    const name = formData.get('stratName');
+    var name = formData.get('stratName');
     const prio = formData.get('prio');
-    const desc = formData.get('desc');
+    var desc = formData.get('desc');
     const type = formData.get('connectionType');
     const startDate = formData.get('startDate');
     const startTime = formData.get('startTime');
@@ -47,11 +55,16 @@ function AddStrategy(props) {
     const endTime = formData.get('endTime');
 
     if(name !== "" && prio !== "" && desc !== "" && type !== "" && startDate !== "" && startTime !== "" && endDate !== "" && endTime !== ""){
-      console.log("here")
       const startTimeArr = startTime.split(":")
       const endTimeArr = endTime.split(":")
       const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
       const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
+
+      name = "0x"+toHex(name).padEnd(64, "0")
+      desc = "0x"+toHex(desc).padEnd(64, "0")
+
+      console.log(name)
+      console.log(desc)
 
       // lat, lng, rad is always 5 numbers long, so specific value doesn't matter
       const estimatedGas_ = await contract.estimateGas.makeStrategy(
@@ -62,8 +75,8 @@ function AddStrategy(props) {
                                                     end,
                                                     connectionTypeToNum[type],
                                                     prioToNum[prio], 
-                                                    desc,
-                                                    name)
+                                                    name,
+                                                    desc)
       setEstimatedGas(estimatedGas_ + " units of gas")
     }
   }
@@ -100,7 +113,7 @@ function AddStrategy(props) {
       end_time: endTime
     }))
 
-    const signer = provider.getSigner("0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199")
+    const signer = provider.getSigner(0)
     // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
 
     const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber
@@ -110,6 +123,9 @@ function AddStrategy(props) {
       alert("Startdate is later than enddate")
       return
     }
+
+    name = "0x"+toHex(name).padEnd(64, "0")
+    desc = "0x"+toHex(desc).padEnd(64, "0")
 
     const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
     const transaction = await contract.makeStrategy(

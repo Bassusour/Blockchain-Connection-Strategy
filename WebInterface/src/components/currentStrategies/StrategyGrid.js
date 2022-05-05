@@ -26,6 +26,7 @@ class StrategyGrid extends React.PureComponent {
     };
     this.updateCurrentStrategies = this.updateCurrentStrategies.bind(this)
     this.onRemoveItem = this.deleteStrategy.bind(this)
+    this.hexToString = this.hexToString.bind(this)
   }
 
   componentWillUnmount() {
@@ -33,10 +34,19 @@ class StrategyGrid extends React.PureComponent {
     this.setState = (state,callback)=>{
         return;
     };
-}
+  }
+
+  hexToString(str1) {
+    var hex  = str1.toString();
+    var str = '';
+    for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
+  }
 
   displayStrategy(strategy, index) {
-    var id = "id" + Math.random().toString(16).slice(2)
+    // var id = "id" + Math.random().toString(16).slice(2)
     const removeStyle = {
       position: "absolute",
       right: "2px",
@@ -44,8 +54,8 @@ class StrategyGrid extends React.PureComponent {
       cursor: "pointer"
     };
     return (
-      <div className = "test2" key={id} data-grid={strategy}>
-        <span>{strategy.name} <br/> {strategy.description}</span>
+      <div className = "test2" key={index} data-grid={strategy}>
+        <span>{this.hexToString(strategy.name)} <br/> {this.hexToString(strategy.description)}</span>
         <span
           className="remove"
           style={removeStyle}
@@ -59,7 +69,7 @@ class StrategyGrid extends React.PureComponent {
   }
 
   async deleteStrategy(index) {
-    const signer = this.provider.getSigner("0x8626f6940e2eb28930efb4cef49b2d1f2c9c1199")
+    const signer = this.provider.getSigner(0)
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
     const transaction = await contract.deleteStrategy(index)
     

@@ -69,7 +69,6 @@ class StrategyGrid extends React.PureComponent {
   updateCurrentStrategies(){
     this.provider.on("block", async (blockNumber) => {
       var _data = await this.contract.getStrategies()
-      console.log(_data)
 
       if(_data.length === 0){
         return 

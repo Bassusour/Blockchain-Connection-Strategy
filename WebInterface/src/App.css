@@ -316,10 +316,12 @@ border-radius: 5px; */
 
 .test {
   width: 40vw;
-  height: 10vh;
+  height: 40vh;
   background-color: white;
+  padding-left: 8.5 vw;
 }
 
 .test2 {
   background-color: aqua;
+  width: 50%
 }

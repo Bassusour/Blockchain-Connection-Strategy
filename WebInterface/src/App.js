@@ -10,7 +10,7 @@ import { ethers } from 'ethers'
 import SixG_Strategy from './artifacts/contracts/SixG_Strategy.sol/SixG_Strategy.json'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css';
-import { Circle, MapContainer, TileLayer } from 'react-leaflet'
+import { Circle, Popup, MapContainer, TileLayer } from 'react-leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import './App.css'
@@ -55,7 +55,6 @@ class App extends React.Component {
 
   getStrategies() {
     provider.on("block", async (blockNumber) => {
-      console.log("blocknumber: " + blockNumber)
       var _data = await contract.getStrategies()
 
       if(_data.length === 0){
@@ -66,19 +65,7 @@ class App extends React.Component {
         // ...state,
         strategies: _data
       }))
-
-      console.log(this.state.strategies)
-
-    // if (this.state.strategies.length > 0) {
-      // this.state.strategies.map(function(strategy, index, list) {
-        // console.log(index)
-        // console.log(getFloat(strategy.location[1])) 
-        // console.log("here")
-        // return <Circle key={index} center={[55, 12]} radius={10000} />
-      // })
-    // }
     }) 
-    // return null
   }
 
   render() {
@@ -95,11 +82,14 @@ class App extends React.Component {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               maxZoom={20}
             />
-            {/* <Circle center={[55, 12]} radius={10000} /> */}
             <div>{this.getStrategies()}</div>
 
              {this.state.strategies.map((strategy, index) => 
-                <Circle key={index} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} radius={getFloat(strategy.location[2])}/>
+                <Circle key={index} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
+                  radius={getFloat(strategy.location[2])}> 
+                  <Popup>{strategy.name}</Popup>
+                </Circle>
+
               )}
 
             </MapContainer>
@@ -117,7 +107,8 @@ class App extends React.Component {
           contractAddress = {contractAddress}
           provider = {provider}
           contract = {contract}
-          initialPos = {initialPos}/>
+          initialPos = {initialPos}
+          />
       <Footer/>
       </>
     );

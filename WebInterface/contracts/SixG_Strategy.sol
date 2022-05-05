@@ -8,8 +8,8 @@ contract SixG_Strategy {
     address private owner;
 
     struct Location {
-        uint32 x;
-        uint32 y;
+        int32 x;
+        int32 y;
         uint32 radius;
     }
     
@@ -47,7 +47,7 @@ contract SixG_Strategy {
         return owner;
     }
     
-    function makeStrategy( uint32 x, uint32 y, uint32 radius, 
+    function makeStrategy( int32 x, int32 y, uint32 radius, 
                             uint startDate, uint endDate, 
                             ConnectionType connectionType,
                             Priority priority, string memory description,
@@ -76,6 +76,7 @@ contract SixG_Strategy {
     }
 
     function getStrategyFromIndex(uint index) public view returns (Strategy memory){
+        require (index < strategies.length && index >= 0);
         return strategies[index];
     } 
 

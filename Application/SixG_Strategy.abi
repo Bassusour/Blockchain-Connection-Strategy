@@ -1,5 +1,10 @@
 [
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "strategyChange",
@@ -51,6 +56,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "getOwner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "getStrategies",
 		"outputs": [
 			{
@@ -58,14 +76,14 @@
 					{
 						"components": [
 							{
-								"internalType": "uint32",
+								"internalType": "int32",
 								"name": "x",
-								"type": "uint32"
+								"type": "int32"
 							},
 							{
-								"internalType": "uint32",
+								"internalType": "int32",
 								"name": "y",
-								"type": "uint32"
+								"type": "int32"
 							},
 							{
 								"internalType": "uint32",
@@ -96,6 +114,16 @@
 						"internalType": "enum SixG_Strategy.Priority",
 						"name": "priority",
 						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
 					}
 				],
 				"internalType": "struct SixG_Strategy.Strategy[]",
@@ -121,14 +149,14 @@
 					{
 						"components": [
 							{
-								"internalType": "uint32",
+								"internalType": "int32",
 								"name": "x",
-								"type": "uint32"
+								"type": "int32"
 							},
 							{
-								"internalType": "uint32",
+								"internalType": "int32",
 								"name": "y",
-								"type": "uint32"
+								"type": "int32"
 							},
 							{
 								"internalType": "uint32",
@@ -159,6 +187,16 @@
 						"internalType": "enum SixG_Strategy.Priority",
 						"name": "priority",
 						"type": "uint8"
+					},
+					{
+						"internalType": "string",
+						"name": "description",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
 					}
 				],
 				"internalType": "struct SixG_Strategy.Strategy",
@@ -185,14 +223,14 @@
 	{
 		"inputs": [
 			{
-				"internalType": "uint32",
+				"internalType": "int32",
 				"name": "x",
-				"type": "uint32"
+				"type": "int32"
 			},
 			{
-				"internalType": "uint32",
+				"internalType": "int32",
 				"name": "y",
-				"type": "uint32"
+				"type": "int32"
 			},
 			{
 				"internalType": "uint32",
@@ -218,6 +256,16 @@
 				"internalType": "enum SixG_Strategy.Priority",
 				"name": "priority",
 				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
 			}
 		],
 		"name": "makeStrategy",
@@ -238,14 +286,14 @@
 			{
 				"components": [
 					{
-						"internalType": "uint32",
+						"internalType": "int32",
 						"name": "x",
-						"type": "uint32"
+						"type": "int32"
 					},
 					{
-						"internalType": "uint32",
+						"internalType": "int32",
 						"name": "y",
-						"type": "uint32"
+						"type": "int32"
 					},
 					{
 						"internalType": "uint32",
@@ -276,9 +324,32 @@
 				"internalType": "enum SixG_Strategy.Priority",
 				"name": "priority",
 				"type": "uint8"
+			},
+			{
+				"internalType": "string",
+				"name": "description",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "updateOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	}
 ]

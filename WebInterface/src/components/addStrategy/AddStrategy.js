@@ -129,9 +129,9 @@ function AddStrategy(props) {
 
     const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
     const transaction = await contract.makeStrategy(
-                                                    newStrat.latlng.lng.toFixed(5) * (10 ** 5), 
-                                                    newStrat.latlng.lat.toFixed(5) * (10 ** 5), 
-                                                    newStrat.radius.toFixed(5) * (10 ** 5),
+                                                    (newStrat.latlng.lng * (10 ** 5)).toFixed(0), 
+                                                    (newStrat.latlng.lat * (10 ** 5)).toFixed(0), 
+                                                    (newStrat.radius * (10 ** 5)).toFixed(0),
                                                     start, 
                                                     end,
                                                     connectionTypeToNum[type],

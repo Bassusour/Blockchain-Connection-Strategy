@@ -21,15 +21,20 @@ const connectionTypeToNum = {
 
 function AddStrategy(props) {
   const zoomLv = 13;
-  const {contractAddress, provider, contract, initialPos} = props
+  var {contractAddress, provider, contract, initialPos, userAddress} = props
   const [newStrat, setNewStrat] = useState({name: 'No strategy selected'})
   const [estimatedGas, setEstimatedGas] = useState("Waiting for more information...")
   const [gasPrice, setGasPrice] = useState(0)
 
   useEffect( async () => {
-      const gasPrice = await provider.getGasPrice()
-      setGasPrice(gasPrice.toString())
-  }, [])
+    const gasPrice = await provider.getGasPrice()
+    setGasPrice(gasPrice.toString())
+    console.log(userAddress)
+  }, [userAddress])
+
+  // componentWillReceiveProps(newProps) {
+  //   this.setState({name: newProps.name});
+  // }
 
   function toHex(str) {
     var result = '';
@@ -113,7 +118,7 @@ function AddStrategy(props) {
       end_time: endTime
     }))
 
-    const signer = provider.getSigner(0)
+    const signer = provider.getSigner(userAddress)
     // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
 
     const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber

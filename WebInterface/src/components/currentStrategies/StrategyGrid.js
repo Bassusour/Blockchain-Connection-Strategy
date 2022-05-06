@@ -22,7 +22,8 @@ class StrategyGrid extends React.PureComponent {
     this.contract = props.contract
 
     this.state = {
-      items: []
+      items: [],
+      userAddress: ""
     };
     this.updateCurrentStrategies = this.updateCurrentStrategies.bind(this)
     this.onRemoveItem = this.deleteStrategy.bind(this)
@@ -35,6 +36,22 @@ class StrategyGrid extends React.PureComponent {
         return;
     };
   }
+
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.setState((state, props) => ({
+      ...state,
+      userAddress: newProps.userAddress
+    }));
+  }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.currentRow !== state.lastRow) {
+  //     return {
+  //       userAddress: props.userAddress
+  //     };
+  //   }
+  //   return null;
+  // }
 
   hexToString(str1) {
     var hex  = str1.toString();
@@ -64,15 +81,13 @@ class StrategyGrid extends React.PureComponent {
           x
         </span>
       </div>
-      
     );
   }
 
   async deleteStrategy(index) {
-    const signer = this.provider.getSigner(0)
+    const signer = this.provider.getSigner(this.state.userAddress)
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
     const transaction = await contract.deleteStrategy(index)
-    
     await transaction.wait()
   }
 
@@ -80,23 +95,24 @@ class StrategyGrid extends React.PureComponent {
     this.provider.on("block", async (blockNumber) => {
       var _data = await this.contract.getStrategies()
 
-      if(_data.length === 0){
-        return 
-      } 
+      // if(_data.length === 0){
+      //   return 
+      // } 
 
-    this.setState({ 
-      items: _data.map(function(strategy, index, list) {
-        return {
-          name: strategy.name,
-          description: strategy.description,
-          x: (index * 2) % 10,
-          y: 0,
-          w: 2,
-          h: 2,
-          static: true
-        };
+      console.log("updated")
+      this.setState({ 
+        items: _data.map(function(strategy, index, list) {
+          return {
+            name: strategy.name,
+            description: strategy.description,
+            x: (index * 2) % 10,
+            y: 0,
+            w: 2,
+            h: 2,
+            static: true
+          };
+        })
       })
-    })
     })
     return null
   }
@@ -109,6 +125,7 @@ class StrategyGrid extends React.PureComponent {
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
+          {console.log(this.state.userAddress)}
           {_.map(this.state.items, (strategy, index) => this.displayStrategy(strategy, index))}
         </ResponsiveReactGridLayout>
       </div>

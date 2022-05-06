@@ -19,7 +19,7 @@
   text-decoration: none;
   padding-left: 3%;
   justify-content: flex-end;
-  align-items: center;
+  /* align-items: center; */
   cursor: pointer;
 }
 
@@ -27,7 +27,7 @@
   align-items: center;
   margin-left: auto; 
   margin-right: auto;
-  padding-right: 9%;
+  padding-left: 9%;
 }
 
 .navigationLink {
@@ -55,14 +55,17 @@ cursor: pointer;
 .navBtnLink {
   border-radius: 4px;
   background: transparent;
-  /* padding: 10px 22px; */
+  padding: 10px 22px;
   color: #fff;
   outline: none;
   border: 1px solid #fff;
-  /* cursor: pointer; */
+  cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-decoration: none;
   /* margin-left: 24px; */
+  text-align: center;
+  align-items: center;
+  width: 8vw;
 
   /* &:hover {
     transition: all 0.2s ease-in-out;
@@ -70,3 +73,14 @@ cursor: pointer;
     color: #808080;
   } */
 }
+
+.addressLabel {
+  color: #fff;
+  font-size: 18px;
+}
+
+.addressInput {
+  font-size: 14px;
+  height: 50px;
+}
+/* 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 */

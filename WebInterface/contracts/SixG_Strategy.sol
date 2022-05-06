@@ -6,6 +6,7 @@ pragma solidity >=0.7.0 <0.9.0;
 contract SixG_Strategy {
 
     address private owner;
+    uint gid = 0; // global id
 
     struct Location {
         int32 x;
@@ -17,6 +18,7 @@ contract SixG_Strategy {
     enum Priority { LOW, MEDIUM, HIGH }
 
     struct Strategy {   
+        uint id;
         Location location;
         uint startDate;
         uint endDate;
@@ -53,9 +55,10 @@ contract SixG_Strategy {
                             Priority priority, bytes32 description,
                             bytes32 name) public isOwner {
         Location memory location = Location(x, y , radius);
-        Strategy memory strategy = Strategy(location, startDate, endDate, connectionType, priority, description, name);
+        Strategy memory strategy = Strategy(gid, location, startDate, endDate, connectionType, priority, description, name);
         strategies.push(strategy);
         length = strategies.length;
+        gid++;
         emit strategyChange();
     }
 

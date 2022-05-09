@@ -23,7 +23,8 @@ L.Marker.prototype.options.icon = DefaultIcon;
 L.Icon.Default.imagePath='leaflet_images/';
 
 const initialPos = [55.78373878553941, 12.518501326376303];
-const zoomLv = 13;
+const zoomLv = 13;  
+//const contractAddress = "0x025E14dDeEb3a617B32Fe7610F7D2127d43734a3"
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 const provider = new ethers.providers.JsonRpcProvider("http://localhost:8545");
 const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, provider)

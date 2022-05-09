@@ -4,3 +4,6 @@ WebInterface/cache
 Application/src/EthBasis.java
 Application/SixG_Strategy.bin
 Application/SixG_Strategy.abi
+WebInterface/cache/solidity-files-cache.json
+WebInterface/src/artifacts/hardhat/console.sol/console.dbg.json
+WebInterface/src/artifacts/hardhat/console.sol/console.json

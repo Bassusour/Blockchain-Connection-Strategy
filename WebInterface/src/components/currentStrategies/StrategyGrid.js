@@ -26,7 +26,7 @@ class StrategyGrid extends React.PureComponent {
   static defaultProps = {
     className: "gridContainer",
     cols: { lg: 12, md: 10, sm: 6, xs: 10, xxs: 3 },
-    rowHeight: 40,
+    rowHeight: 50,
   };
 
   constructor(props) {
@@ -76,17 +76,33 @@ class StrategyGrid extends React.PureComponent {
     return str;
   }
 
-  displayStrategy(strategy, index) {
-    // var id = "id" + Math.random().toString(16).slice(2)
+  displayStrategy(strategy) {
+    const now = parseInt((new Date().getTime()).toFixed(0))
+    if(strategy.endDate < now){ //Expired
+      this.deleteStrategy(strategy.id)
+      return
+    }
+
     const removeStyle = {
       position: "absolute",
       right: "2px",
       top: 0,
       cursor: "pointer"
     };
+    var backgroundColor = ""
+    if(strategy.startDate < now && strategy.endDate > now){ //active
+      backgroundColor = "orangered"
+    } else { //inactive
+      backgroundColor = "black"
+    }
+
     return (
-      <div className = "strategy" key={strategy.id} data-grid={strategy}>
+
+      <div className = "strategy" key={strategy.id} data-grid={strategy} style={{"background-color": backgroundColor}}>
         <span><b>{this.hexToString(strategy.name)}</b> <br/>
+              {backgroundColor === "black" && <p> Inactive </p>}
+              {backgroundColor === "orangered" && <p> Active </p>}
+
               <Popup 
                 trigger={<button className="detailBtn"> Details </button>}
                 modal

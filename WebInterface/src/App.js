@@ -53,7 +53,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       strategies: [],
-      userAddress: ""
+      userAddress: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
     };
     this.updateAddress = this.updateAddress.bind(this)
     this.hexToString = this.hexToString.bind(this)

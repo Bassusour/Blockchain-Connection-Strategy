@@ -62,8 +62,14 @@ contract SixG_Strategy {
         emit strategyChange();
     }
 
-    function deleteStrategy(uint index) public isOwner{
-        require(index < strategies.length && index >= 0);
+    function deleteStrategy(uint id) public isOwner{
+        require(id >= 0);
+        uint index;
+        for(uint i = 0; i < strategies.length; i++) {
+            if (strategies[i].id == id){
+                index = i;
+            }
+        }
         strategies[index] = strategies[strategies.length - 1];
         strategies.pop();
         emit strategyChange();

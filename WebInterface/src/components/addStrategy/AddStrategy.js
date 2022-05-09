@@ -29,7 +29,6 @@ function AddStrategy(props) {
   useEffect( async () => {
     const gasPrice = await provider.getGasPrice()
     setGasPrice(gasPrice.toString())
-    console.log(userAddress)
   }, [userAddress])
 
   // componentWillReceiveProps(newProps) {
@@ -68,9 +67,6 @@ function AddStrategy(props) {
       name = "0x"+toHex(name).padEnd(64, "0")
       desc = "0x"+toHex(desc).padEnd(64, "0")
 
-      console.log(name)
-      console.log(desc)
-
       // lat, lng, rad is always 5 numbers long, so specific value doesn't matter
       const estimatedGas_ = await contract.estimateGas.makeStrategy(
                                                     12345,
@@ -105,6 +101,9 @@ function AddStrategy(props) {
       alert("Please select area")
       return
     }
+    if (userAddress === ""){
+      alert("Please enter your public address")
+    }
 
     setNewStrat(prev => ({
       ...prev,
@@ -119,13 +118,18 @@ function AddStrategy(props) {
     }))
 
     const signer = provider.getSigner(userAddress)
-    // const signer = new ethers.Wallet( "0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d", provider)
 
-    const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber
-    const end = e.target[6].valueAsNumber +  e.target[7].valueAsNumber
+    // Minus to get correct timezone (GMT+2)
+    const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber - 7200000
+    const end = e.target[6].valueAsNumber +  e.target[7].valueAsNumber - 7200000
 
     if(start > end) {
       alert("Startdate is later than enddate")
+      return
+    }
+    const now = parseInt((new Date().getTime()).toFixed(0))
+    if(start < now) {
+      alert("Startdate is earlier than current time")
       return
     }
 
@@ -143,7 +147,7 @@ function AddStrategy(props) {
                                                     prioToNum[prio], 
                                                     desc,
                                                     name)
-    const receipt = await transaction.wait()
+    await transaction.wait()
     e.target.reset();
   };
 

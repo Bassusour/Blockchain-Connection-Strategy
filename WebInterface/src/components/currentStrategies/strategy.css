@@ -1,0 +1,48 @@
+
+.modal {  
+  font-size: 12px;
+}
+
+.header {  
+  width: 100%;  
+  border-bottom: 1px solid gray;  
+  font-size: 18px;  
+  text-align: center;  
+  padding: 5px;
+}
+
+.content {  
+  width: 100%;  
+  padding: 10px 5px;
+}
+
+.detailBtn {
+  /* padding: 1rem; */
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 1rem;
+  background: grey ;
+  color: white;
+  /* margin: 0 auto; */
+  /* border-color: orangered; */
+  /* border-radius: $radius; */
+}
+
+.gridContainer {
+  width: 40vw;
+  height: 40vh;
+  background-color: white;
+  /* padding-left: 8.5 vw; */
+}
+
+.strategy {
+  display: flex;
+  background-color: orangered;
+  width: 100%;
+  color: white;
+  align-items: center;
+  text-align: center;
+  justify-content: space-around;
+  border-color: black;
+}

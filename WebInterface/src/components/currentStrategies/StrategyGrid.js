@@ -5,12 +5,26 @@ import SixG_Strategy from '../../artifacts/contracts/SixG_Strategy.sol/SixG_Stra
 import _ from "lodash";
 import '/node_modules/react-grid-layout/css/styles.css'
 import '/node_modules/react-resizable/css/styles.css'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+// import './Card.scss'
+import "./strategy.css"
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+const prioToString = {
+  0: "Low",
+  1: "Medium",
+  2: "High"
+}
+const connectionTypeToString = {
+  0: "WiFi",
+  1: "Data"
+}
+
 class StrategyGrid extends React.PureComponent {
   static defaultProps = {
-    className: "test",
+    className: "gridContainer",
     cols: { lg: 12, md: 10, sm: 6, xs: 10, xxs: 3 },
     rowHeight: 40,
   };
@@ -71,12 +85,26 @@ class StrategyGrid extends React.PureComponent {
       cursor: "pointer"
     };
     return (
-      <div className = "test2" key={index} data-grid={strategy}>
-        <span>{this.hexToString(strategy.name)} <br/> {this.hexToString(strategy.description)}</span>
+      <div className = "strategy" key={strategy.id} data-grid={strategy}>
+        <span><b>{this.hexToString(strategy.name)}</b> <br/>
+              <Popup 
+                trigger={<button className="detailBtn"> Details </button>}
+                modal
+              > 
+                <div className="header"> {this.hexToString(strategy.name)} </div>        
+                <div className="content">          
+                  {"Priority: " + prioToString[strategy.priority]} <br/>
+                  {"Description: " + this.hexToString(strategy.description)} <br/>
+                  {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
+                  {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
+                  {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                </div>        
+              </Popup>
+        </span>
         <span
           className="remove"
           style={removeStyle}
-          onClick={this.deleteStrategy.bind(this, index)}
+          onClick={this.deleteStrategy.bind(this, parseInt(strategy.id, 16))}
         >
           x
         </span>
@@ -84,10 +112,15 @@ class StrategyGrid extends React.PureComponent {
     );
   }
 
-  async deleteStrategy(index) {
+  async deleteStrategy(id) {
+    if (this.state.userAddress === ""){
+      alert("Please enter your public address")
+      return
+    }
     const signer = this.provider.getSigner(this.state.userAddress)
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
-    const transaction = await contract.deleteStrategy(index)
+    // console.log(id)
+    const transaction = await contract.deleteStrategy(id)
     await transaction.wait()
   }
 
@@ -99,12 +132,16 @@ class StrategyGrid extends React.PureComponent {
       //   return 
       // } 
 
-      console.log("updated")
       this.setState({ 
         items: _data.map(function(strategy, index, list) {
           return {
             name: strategy.name,
             description: strategy.description,
+            id: strategy.id,
+            priority: strategy.priority,
+            connectionType: strategy.connectionType,
+            startDate: strategy.startDate,
+            endDate: strategy.endDate,
             x: (index * 2) % 10,
             y: 0,
             w: 2,
@@ -125,8 +162,7 @@ class StrategyGrid extends React.PureComponent {
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
-          {console.log(this.state.userAddress)}
-          {_.map(this.state.items, (strategy, index) => this.displayStrategy(strategy, index))}
+          {_.map(this.state.items, (strategy) => this.displayStrategy(strategy))}
         </ResponsiveReactGridLayout>
       </div>
     );

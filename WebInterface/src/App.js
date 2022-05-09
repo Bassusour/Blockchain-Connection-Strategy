@@ -39,15 +39,24 @@ const fillOptions = {
   1: "yellow",
   2: "red"
 }
-
+const prioToString = {
+  0: "Low",
+  1: "Medium",
+  2: "High"
+}
+const connectionTypeToString = {
+  0: "WiFi",
+  1: "Data"
+}
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       strategies: [],
-      userAddress: "test"
+      userAddress: ""
     };
     this.updateAddress = this.updateAddress.bind(this)
+    this.hexToString = this.hexToString.bind(this)
   }
 
   componentWillUnmount() {
@@ -76,8 +85,16 @@ class App extends React.Component {
         ...state,
         strategies: _data
       }))
-      console.log(this.state)
     }) 
+  }
+
+  hexToString(str1) {
+    var hex  = str1.toString();
+    var str = '';
+    for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
   }
 
   render() {
@@ -97,9 +114,15 @@ class App extends React.Component {
             <div>{this.getStrategies()}</div>
 
              {this.state.strategies.map((strategy, index) => 
-                <Circle key={index} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
+                <Circle key={strategy.id} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
                   radius={getFloat(strategy.location[2])}> 
-                  <Popup>{strategy.name}</Popup>
+                  <Popup>{"Name: " + this.hexToString(strategy.name)} <br/>
+                         {"Priority: " + prioToString[strategy.priority]} <br/>
+                         {/* {"Description: " + this.hexToString(strategy.description)} <br/> */}
+                         {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
+                         {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
+                         {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                         </Popup>
                 </Circle>
 
               )}

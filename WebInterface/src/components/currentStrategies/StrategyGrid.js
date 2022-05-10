@@ -77,8 +77,8 @@ class StrategyGrid extends React.PureComponent {
   }
 
   displayStrategy(strategy) {
-    const now = parseInt((new Date().getTime()).toFixed(0))
-    if(strategy.endDate < now){ //Expired
+    const now = parseInt((new Date().getTime()/1000).toFixed(0))
+    if(strategy.endDate < now && this.state.userAddress !== ""){ //Expired
       this.deleteStrategy(strategy.id)
       return
     }
@@ -110,8 +110,8 @@ class StrategyGrid extends React.PureComponent {
                   {"Priority: " + prioToString[strategy.priority]} <br/>
                   {"Description: " + this.hexToString(strategy.description)} <br/>
                   {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
-                  {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
-                  {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                  {"Start: " + new Date(parseInt(strategy.startDate*1000)).toLocaleString()} <br/>
+                  {"End: " +  new Date(parseInt(strategy.endDate*1000)).toLocaleString()}
                 </div>        
               </Popup>
         </span>

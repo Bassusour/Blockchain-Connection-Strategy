@@ -1,19 +1,28 @@
 import React from 'react';
+import { HashLink as Link } from "react-router-hash-link";
+import { ethers } from 'ethers'
+
+const scrollWithOffset = (el) => {
+    const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
+    const yOffset = -85; 
+    window.scrollTo({ top: yCoordinate + yOffset, behavior: 'smooth' }); 
+}
 
 function Home() {
     return(
-      <div className="background">
+      <div className="background-2">
         <div className="mainframe">
           <h1>Blockchain Connection Strategy</h1>
           <h3>A decentralized app, that updates the connection strategy for costumers</h3>
           <div className="home-buttons">
-            <button className="select-strategy-btn">Select strategy</button> 
-            <button className="github-btn">GitHub</button>
+            <Link smooth to="#addStrategy" 
+                  className="select-strategy-btn"
+                  scroll={el => scrollWithOffset(el)}>
+              Add Strategy
+            </Link>
+            <a href="https://github.com/Bassusour/Blockchain-Connection-Strategy/" target="_blank" className="github-btn">GitHub</a>
+
           </div>
-        </div>
-        <div className="current-strategy">
-          <h1>Current strategy</h1>
-          <p>Description of current strategy</p>
         </div>
       </div>
     )

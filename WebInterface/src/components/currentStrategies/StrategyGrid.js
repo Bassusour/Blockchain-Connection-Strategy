@@ -5,14 +5,28 @@ import SixG_Strategy from '../../artifacts/contracts/SixG_Strategy.sol/SixG_Stra
 import _ from "lodash";
 import '/node_modules/react-grid-layout/css/styles.css'
 import '/node_modules/react-resizable/css/styles.css'
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+// import './Card.scss'
+import "./strategy.css"
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+const prioToString = {
+  0: "Low",
+  1: "Medium",
+  2: "High"
+}
+const connectionTypeToString = {
+  0: "WiFi",
+  1: "Data"
+}
+
 class StrategyGrid extends React.PureComponent {
   static defaultProps = {
-    className: "test",
+    className: "gridContainer",
     cols: { lg: 12, md: 10, sm: 6, xs: 10, xxs: 3 },
-    rowHeight: 40,
+    rowHeight: 50,
   };
 
   constructor(props) {
@@ -22,7 +36,8 @@ class StrategyGrid extends React.PureComponent {
     this.contract = props.contract
 
     this.state = {
-      items: []
+      items: [],
+      userAddress: ""
     };
     this.updateCurrentStrategies = this.updateCurrentStrategies.bind(this)
     this.onRemoveItem = this.deleteStrategy.bind(this)
@@ -36,6 +51,22 @@ class StrategyGrid extends React.PureComponent {
     };
   }
 
+  UNSAFE_componentWillReceiveProps(newProps) {
+    this.setState((state, props) => ({
+      ...state,
+      userAddress: newProps.userAddress
+    }));
+  }
+
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.currentRow !== state.lastRow) {
+  //     return {
+  //       userAddress: props.userAddress
+  //     };
+  //   }
+  //   return null;
+  // }
+
   hexToString(str1) {
     var hex  = str1.toString();
     var str = '';
@@ -45,34 +76,67 @@ class StrategyGrid extends React.PureComponent {
     return str;
   }
 
-  displayStrategy(strategy, index) {
-    // var id = "id" + Math.random().toString(16).slice(2)
+  displayStrategy(strategy) {
+    const now = parseInt((new Date().getTime()).toFixed(0))
+    if(strategy.endDate < now){ //Expired
+      this.deleteStrategy(strategy.id)
+      return
+    }
+
     const removeStyle = {
       position: "absolute",
       right: "2px",
       top: 0,
       cursor: "pointer"
     };
+    var backgroundColor = ""
+    if(strategy.startDate < now && strategy.endDate > now){ //active
+      backgroundColor = "orangered"
+    } else { //inactive
+      backgroundColor = "black"
+    }
+
     return (
-      <div className = "test2" key={index} data-grid={strategy}>
-        <span>{this.hexToString(strategy.name)} <br/> {this.hexToString(strategy.description)}</span>
+
+      <div className = "strategy" key={strategy.id} data-grid={strategy} style={{"background-color": backgroundColor}}>
+        <span><b>{this.hexToString(strategy.name)}</b> <br/>
+              {backgroundColor === "black" && <p> Inactive </p>}
+              {backgroundColor === "orangered" && <p> Active </p>}
+
+              <Popup 
+                trigger={<button className="detailBtn"> Details </button>}
+                modal
+              > 
+                <div className="header"> {this.hexToString(strategy.name)} </div>        
+                <div className="content">          
+                  {"Priority: " + prioToString[strategy.priority]} <br/>
+                  {"Description: " + this.hexToString(strategy.description)} <br/>
+                  {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
+                  {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
+                  {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                </div>        
+              </Popup>
+        </span>
         <span
           className="remove"
           style={removeStyle}
-          onClick={this.deleteStrategy.bind(this, index)}
+          onClick={this.deleteStrategy.bind(this, parseInt(strategy.id, 16))}
         >
           x
         </span>
       </div>
-      
     );
   }
 
-  async deleteStrategy(index) {
-    const signer = this.provider.getSigner(0)
+  async deleteStrategy(id) {
+    if (this.state.userAddress === ""){
+      alert("Please enter your public address")
+      return
+    }
+    const signer = this.provider.getSigner(this.state.userAddress)
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
-    const transaction = await contract.deleteStrategy(index)
-    
+    // console.log(id)
+    const transaction = await contract.deleteStrategy(id)
     await transaction.wait()
   }
 
@@ -80,23 +144,28 @@ class StrategyGrid extends React.PureComponent {
     this.provider.on("block", async (blockNumber) => {
       var _data = await this.contract.getStrategies()
 
-      if(_data.length === 0){
-        return 
-      } 
+      // if(_data.length === 0){
+      //   return 
+      // } 
 
-    this.setState({ 
-      items: _data.map(function(strategy, index, list) {
-        return {
-          name: strategy.name,
-          description: strategy.description,
-          x: (index * 2) % 10,
-          y: 0,
-          w: 2,
-          h: 2,
-          static: true
-        };
+      this.setState({ 
+        items: _data.map(function(strategy, index, list) {
+          return {
+            name: strategy.name,
+            description: strategy.description,
+            id: strategy.id,
+            priority: strategy.priority,
+            connectionType: strategy.connectionType,
+            startDate: strategy.startDate,
+            endDate: strategy.endDate,
+            x: (index * 2) % 10,
+            y: 0,
+            w: 2,
+            h: 2,
+            static: true
+          };
+        })
       })
-    })
     })
     return null
   }
@@ -109,7 +178,7 @@ class StrategyGrid extends React.PureComponent {
           onLayoutChange={this.onLayoutChange}
           {...this.props}
         >
-          {_.map(this.state.items, (strategy, index) => this.displayStrategy(strategy, index))}
+          {_.map(this.state.items, (strategy) => this.displayStrategy(strategy))}
         </ResponsiveReactGridLayout>
       </div>
     );

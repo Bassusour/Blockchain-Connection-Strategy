@@ -14,6 +14,7 @@ import { Circle, Popup, MapContainer, TileLayer } from 'react-leaflet'
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import './App.css'
+import { useState } from 'react';
 
 let DefaultIcon = L.icon({
     iconUrl: icon,
@@ -38,13 +39,24 @@ const fillOptions = {
   1: "yellow",
   2: "red"
 }
-
+const prioToString = {
+  0: "Low",
+  1: "Medium",
+  2: "High"
+}
+const connectionTypeToString = {
+  0: "WiFi",
+  1: "Data"
+}
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       strategies: [],
+      userAddress: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
     };
+    this.updateAddress = this.updateAddress.bind(this)
+    this.hexToString = this.hexToString.bind(this)
   }
 
   componentWillUnmount() {
@@ -52,27 +64,43 @@ class App extends React.Component {
     this.setState = (state,callback)=>{
         return;
     };
-}
+  }
+
+  updateAddress(addressData) {
+    this.setState((state, props) => ({
+      ...state,
+      userAddress: addressData
+    }));
+  }
 
   getStrategies() {
     provider.on("block", async (blockNumber) => {
       var _data = await contract.getStrategies()
 
-      if(_data.length === 0){
-        return
-      } 
+      // if(_data.length === 0){
+      //   return
+      // } 
 
       this.setState((state, props) => ({
-        // ...state,
+        ...state,
         strategies: _data
       }))
     }) 
   }
 
+  hexToString(str1) {
+    var hex  = str1.toString();
+    var str = '';
+    for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
+  }
+
   render() {
     return (
       <>
-      <Nav/>
+      <Nav updateAddress = {this.updateAddress}/>
       <Home/>
         <div className="background">
           <div className='map'>
@@ -86,9 +114,15 @@ class App extends React.Component {
             <div>{this.getStrategies()}</div>
 
              {this.state.strategies.map((strategy, index) => 
-                <Circle key={index} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
+                <Circle key={strategy.id} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
                   radius={getFloat(strategy.location[2])}> 
-                  <Popup>{strategy.name}</Popup>
+                  <Popup>{"Name: " + this.hexToString(strategy.name)} <br/>
+                         {"Priority: " + prioToString[strategy.priority]} <br/>
+                         {/* {"Description: " + this.hexToString(strategy.description)} <br/> */}
+                         {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
+                         {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
+                         {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                         </Popup>
                 </Circle>
 
               )}
@@ -100,7 +134,8 @@ class App extends React.Component {
             <StrategyGrid 
               contractAddress = {contractAddress}
               provider = {provider}
-              contract = {contract}/>
+              contract = {contract}
+              userAddress = {this.state.userAddress}/>
           </div>
         </div>
         
@@ -109,6 +144,7 @@ class App extends React.Component {
           provider = {provider}
           contract = {contract}
           initialPos = {initialPos}
+          userAddress = {this.state.userAddress}
           />
       <Footer/>
       </>

@@ -16,7 +16,7 @@ public class Client {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
-        strategyContract = new StorageCreater().create();
+        strategyContract = new ContractCreater().create();
         setStrategies();
         active_strategy = chooseActiveStrategy();
         enableStrategy();

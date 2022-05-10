@@ -31,10 +31,6 @@ function AddStrategy(props) {
     setGasPrice(gasPrice.toString())
   }, [userAddress])
 
-  // componentWillReceiveProps(newProps) {
-  //   this.setState({name: newProps.name});
-  // }
-
   function toHex(str) {
     var result = '';
     for (var i=0; i<str.length; i++) {
@@ -116,12 +112,12 @@ function AddStrategy(props) {
       end_date: endDate,
       end_time: endTime
     }))
-
     const signer = provider.getSigner(userAddress)
-
-    // Minus to get correct timezone (GMT+2)
-    const start = e.target[5].valueAsNumber +  e.target[4].valueAsNumber - 7200000
-    const end = e.target[6].valueAsNumber +  e.target[7].valueAsNumber - 7200000
+    
+    const startTimeArr = startTime.split(":")
+    const endTimeArr = endTime.split(":")
+    const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
+    const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
 
     if(start > end) {
       alert("Startdate is later than enddate")
@@ -137,8 +133,7 @@ function AddStrategy(props) {
     desc = "0x"+toHex(desc).padEnd(64, "0")
 
     const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
-    const transaction = await contract.makeStrategy(
-                                                    (newStrat.latlng.lng * (10 ** 5)).toFixed(0), 
+    const transaction = await contract.makeStrategy((newStrat.latlng.lng * (10 ** 5)).toFixed(0), 
                                                     (newStrat.latlng.lat * (10 ** 5)).toFixed(0), 
                                                     (newStrat.radius * (10 ** 5)).toFixed(0),
                                                     start, 
@@ -152,10 +147,8 @@ function AddStrategy(props) {
   };
 
   return (
-    
       <StratContext.Provider value={{ selectedStrat: newStrat, setSelectedStrat: setNewStrat }}>
       <div className="background" id="addStrategy">
-        
         <div className='map'>
         <MapContainer center={initialPos} zoom={zoomLv} id='map'>
           <TileLayer

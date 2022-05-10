@@ -57,8 +57,10 @@ function AddStrategy(props) {
     if(name !== "" && prio !== "" && desc !== "" && type !== "" && startDate !== "" && startTime !== "" && endDate !== "" && endTime !== ""){
       const startTimeArr = startTime.split(":")
       const endTimeArr = endTime.split(":")
-      const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
-      const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
+      // const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
+      // const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
+      const start = (new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])/1000).toFixed(0)
+      const end = (new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])/1000).toFixed(0)
 
       name = "0x"+toHex(name).padEnd(64, "0")
       desc = "0x"+toHex(desc).padEnd(64, "0")
@@ -113,17 +115,17 @@ function AddStrategy(props) {
       end_time: endTime
     }))
     const signer = provider.getSigner(userAddress)
-    
+
     const startTimeArr = startTime.split(":")
     const endTimeArr = endTime.split(":")
-    const start = new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])
-    const end = new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])
+    const start = (new Date(startDate).setHours(startTimeArr[0], startTimeArr[1])/1000).toFixed(0)
+    const end = (new Date(endDate).setHours(endTimeArr[0], endTimeArr[1])/1000).toFixed(0)
 
     if(start > end) {
       alert("Startdate is later than enddate")
       return
     }
-    const now = parseInt((new Date().getTime()).toFixed(0))
+    const now = parseInt((new Date().getTime()/1000).toFixed(0))
     if(start < now) {
       alert("Startdate is earlier than current time")
       return

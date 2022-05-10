@@ -53,7 +53,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       strategies: [],
-      userAddress: "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+      userAddress: ""
     };
     this.updateAddress = this.updateAddress.bind(this)
     this.hexToString = this.hexToString.bind(this)
@@ -120,8 +120,8 @@ class App extends React.Component {
                          {"Priority: " + prioToString[strategy.priority]} <br/>
                          {/* {"Description: " + this.hexToString(strategy.description)} <br/> */}
                          {"Connection type: " + connectionTypeToString[strategy.connectionType]} <br/>
-                         {"Start: " + new Date(parseInt(strategy.startDate)).toLocaleString()} <br/>
-                         {"End: " +  new Date(parseInt(strategy.endDate)).toLocaleString()}
+                         {"Start: " + new Date(parseInt(strategy.startDate*1000)).toLocaleString()} <br/>
+                         {"End: " +  new Date(parseInt(strategy.endDate*1000)).toLocaleString()}
                          </Popup>
                 </Circle>
 

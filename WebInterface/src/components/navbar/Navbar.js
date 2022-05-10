@@ -18,11 +18,11 @@ function Nav(props) {
 
   return (
     <div className="navbar">
-      <div className="logo">
+      {/* <div className="logo">
         <Link smooth to="#top" scroll={el => scrollWithOffset(el)} className="logo">
           Logo
         </Link>
-      </div>
+      </div> */}
     
       <div className="navMenu">
         <Link smooth to="#top" scroll={el => scrollWithOffset(el)}

@@ -97,12 +97,10 @@ class StrategyGrid extends React.PureComponent {
     }
 
     return (
-
-      <div className = "strategy" key={strategy.id} data-grid={strategy} style={{"background-color": backgroundColor}}>
+      <div className = "strategy" key={strategy.id} data-grid={strategy} style={{"backgroundColor": backgroundColor}}>
         <span><b>{this.hexToString(strategy.name)}</b> <br/>
               {backgroundColor === "black" && <p> Inactive </p>}
               {backgroundColor === "orangered" && <p> Active </p>}
-
               <Popup 
                 trigger={<button className="detailBtn"> Details </button>}
                 modal

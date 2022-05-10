@@ -12,7 +12,7 @@ import org.web3j.tx.gas.DefaultGasProvider;
 
 import ethereum.SixG_Strategy;
 
-public class StorageCreater {
+public class ContractCreater {
     static SixG_Strategy strategyContract;
     static String address = "0x025E14dDeEb3a617B32Fe7610F7D2127d43734a3";
     static TransactionManager tm;

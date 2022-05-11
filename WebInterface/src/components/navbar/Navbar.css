@@ -1,26 +1,15 @@
 .navbar {
-    background: orangered;
-    height: 85px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-
-    justify-content: space-around;
-    text-align: center;
-    padding: 0.2rem;
-    z-index: 12;
-    position: sticky; 
-    top: 0;
-}
-
-.logo {
-  color: #fff;
-  font-size: 2rem;
-  text-decoration: none;
-  padding-left: 3%;
-  justify-content: flex-end;
-  /* align-items: center; */
-  cursor: pointer;
+  background: orangered;
+  height: 85px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  padding: 0.2rem;
+  z-index: 12;
+  position: sticky; 
+  top: 0;
 }
 
 .navMenu {
@@ -33,7 +22,6 @@
 .navigationLink {
 color: #fff;
 width: 20%;
-/* align-items: center; */
 text-decoration: none;
 padding: 0 4rem;
 margin-left: auto; 
@@ -41,9 +29,6 @@ margin-right: auto;
 height: 100%;
 font-size: 150%;
 cursor: pointer;
-/* &:hover {
-  color: black;
-} */
 }
 
 .navBtn {
@@ -52,28 +37,25 @@ cursor: pointer;
   margin-right: 24px;
 }
 
-.navBtnLink {
+.address {
+  color: white  
+}
+
+.addressBtn {
   border-radius: 4px;
   background: transparent;
   padding: 10px 22px;
   color: #fff;
-  outline: none;
   border: 1px solid #fff;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-  /* margin-left: 24px; */
   text-align: center;
   align-items: center;
-  width: 8vw;
+  width: 6vw;
   padding: 0px;
-  /* margin-bottom:10px; */
-
-  /* &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #fff;
-    color: #808080;
-  } */
+  font-size: 18px;
+}
+.addressBtn:active {
+  background-color: #ba3200;
 }
 
 .addressLabel {
@@ -83,6 +65,5 @@ cursor: pointer;
 
 .addressInput {
   font-size: 14px;
-  height: 50px;
+  height: 30px;
 }
-/* 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 */

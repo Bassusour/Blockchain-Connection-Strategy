@@ -131,9 +131,14 @@ class StrategyGrid extends React.PureComponent {
       alert("Please enter your public address")
       return
     }
-    const signer = this.provider.getSigner(this.state.userAddress)
+    var signer = ""
+    try {
+      signer = this.provider.getSigner(this.state.userAddress)
+    } catch(e) {
+      alert("Invalid address")
+      return
+    }
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
-    // console.log(id)
     const transaction = await contract.deleteStrategy(id)
     await transaction.wait()
   }
@@ -141,10 +146,6 @@ class StrategyGrid extends React.PureComponent {
   updateCurrentStrategies(){
     this.provider.on("block", async (blockNumber) => {
       var _data = await this.contract.getStrategies()
-
-      // if(_data.length === 0){
-      //   return 
-      // } 
 
       this.setState({ 
         items: _data.map(function(strategy, index, list) {

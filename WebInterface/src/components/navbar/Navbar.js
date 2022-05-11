@@ -11,8 +11,8 @@ const scrollWithOffset = (el) => {
 
 
 function Nav(props) {
-  const {updateAddress} = props
-  const [currentAddress, setCurrentAddress] = useState("")
+  const {updateAddress, userAddress} = props
+  const [currentAddress, setCurrentAddress] = useState(userAddress)
 
   const handleSubmit = (e) => {
     updateAddress(e.target.address.value)

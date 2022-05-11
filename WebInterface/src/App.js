@@ -53,7 +53,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       strategies: [],
-      userAddress: ""
+      userAddress: localStorage.getItem("userAddress")
     };
     this.updateAddress = this.updateAddress.bind(this)
     this.hexToString = this.hexToString.bind(this)
@@ -70,16 +70,14 @@ class App extends React.Component {
     this.setState((state, props) => ({
       ...state,
       userAddress: addressData
-    }));
+    }), () => {
+      localStorage.setItem("userAddress", this.state.userAddress)
+    });
   }
 
   getStrategies() {
     provider.on("block", async (blockNumber) => {
       var _data = await contract.getStrategies()
-
-      // if(_data.length === 0){
-      //   return
-      // } 
 
       this.setState((state, props) => ({
         ...state,
@@ -100,7 +98,8 @@ class App extends React.Component {
   render() {
     return (
       <>
-      <Nav updateAddress = {this.updateAddress}/>
+      <Nav updateAddress = {this.updateAddress}
+           userAddress = {this.state.userAddress}/>
       <Home/>
         <div className="background">
           <div className='map'>

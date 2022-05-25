@@ -1,5 +1,4 @@
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -20,8 +19,12 @@ public class Client {
         setStrategies();
         active_strategy = chooseActiveStrategy();
         enableStrategy();
+        // System.out.println(strategies.get(0).startDate.toString());
+        // System.out.println(System.currentTimeMillis() / 1000L);
+        // System.out.println(strategies.get(0).endDate.toString());
         Flowable<StrategyChangeEventResponse> flow = strategyContract.strategyChangeEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
         flow.subscribe(event -> {
+            System.out.println("In event");
             setStrategies();
             active_strategy = chooseActiveStrategy();
             enableStrategy();
@@ -30,8 +33,10 @@ public class Client {
         boolean running = true;
         while(running){
             TimeUnit.SECONDS.sleep(10);
-            if (active_strategy == null) continue;
-            checkActiveStrategy();
+            if (!chooseActiveStrategy().equals(active_strategy)){
+                active_strategy = chooseActiveStrategy();
+                enableStrategy();
+            }
         }
     }
 
@@ -40,6 +45,7 @@ public class Client {
     }
 
     public static Strategy chooseActiveStrategy(){
+        System.out.println("In choose");
         long now = System.currentTimeMillis() / 1000L;
         Strategy returnStrat = null;
         for(Strategy strat : strategies){
@@ -52,16 +58,10 @@ public class Client {
     }
 
     public static void enableStrategy(){
-        if(active_strategy != null)
-        System.out.println("Connection: " + active_strategy.connectionType);
-        System.out.println("Desc: " + new String(active_strategy.description, StandardCharsets.UTF_8));
-    }
-
-    public static void checkActiveStrategy() {
-        if(active_strategy.endDate.longValue() < (System.currentTimeMillis() / 1000L)){
-            active_strategy = chooseActiveStrategy();
-            enableStrategy();
+        System.out.println("In enable");
+        if(active_strategy != null) {
+            System.out.println("Connection: " + active_strategy.connectionType);
+            System.out.println("Desc: " + new String(active_strategy.description, StandardCharsets.UTF_8));
         }
     }
-
 }

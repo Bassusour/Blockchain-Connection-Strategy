@@ -24,15 +24,6 @@
   vertical-align: middle;
 }
 
-.title {
-  height: 85px;
-  width: 100%;
-  align-items: center;
-  text-align: center;
-  padding-top: 2%;
-  /* background-color: red; */
-}
-
 .background {
   height: 100vh;
   /* width: 100vw; */
@@ -45,62 +36,22 @@
   height: 60vh;
   background-color: grey;
 }
-.backgroundd {
-  height: 100vh;
-  width: 100vw;
-  background-color: aquamarine;
-  text-align: center;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-.costum-buttons button {
-  font-size: 24px;
-  margin-bottom: 24px;
-  color: white;
-  padding: 12px;
-  font-weight: bold;
-  margin-right: 8px;
-}
 
 input {
   font-size: 24px;
   padding: 16px;
 }
 
-.description {
-  background-color: darkgray;
-  border-radius: 24px;
-  padding: 24px;
-  margin-bottom: 24px;
-}
-
 .mainframe {
   background-color: orangered;
   display: flex;
   flex-direction: column;
-  /* flex-flow: column; */
   width: 100%;
   height: 50vh;
-  /* align-content: center; */
   text-align: center;
   padding: 5rem;
   margin: 0 auto;
 }
-
 
 .select-strategy-btn, .github-btn {
   align-items: center;
@@ -117,7 +68,6 @@ input {
   flex-shrink: 0;
   font-family: Eina01,sans-serif;
   font-size: 25px;
-  /* font-weight: 800; */
   justify-content: center;
   line-height: 30px;
   margin: 5%;
@@ -166,10 +116,8 @@ input {
   z-index: -2;
 }
 
-
 .github-btn:after {
   background-color: rgb(100, 100, 100);
-  /* background-image: linear-gradient(92.83deg, #ac2121 0, #f97713 100%); */
   bottom: 4px;
   content: "";
   display: block;
@@ -184,7 +132,6 @@ input {
 
 .select-strategy-btn:after {
   background-color: rgb(255,116,38);
-  /* background-image: linear-gradient(92.83deg, #ff7426 0, #f97713 100%); */
   bottom: 4px;
   content: "";
   display: block;
@@ -211,22 +158,6 @@ input {
   color: #ccc;
 }
 
-/* .github-btn:active:not(:disabled):after {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
-  bottom: 4px;
-  left: 4px;
-  right: 4px;
-  top: 4px;
-}
-
-.select-strategy-btn:active:not(:disabled):after {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, .2), rgba(0, 0, 0, .2)), linear-gradient(92.83deg, #ff7426 0, #f93a13 100%);
-  bottom: 4px;
-  left: 4px;
-  right: 4px;
-  top: 4px;
-} */
-
 .select-strategy-btn:disabled,
 .github-btn:disabled {
   cursor: default;
@@ -235,8 +166,6 @@ input {
 
 .mainframe h1 {
   color: white;
-  /* font-family: Eina01,sans-serif; */
-  /* background-color: blue; */
 }
 
 .mainframe h3 {
@@ -245,76 +174,14 @@ input {
   font-weight: 200;
 }
 
-.current-strategy {
-  background-color: white;
-  border-color: black;
-  /* border-style: solid; */
-  border-width: 5px;
-  display: flex;
-  /* flex-direction: column; */
-  flex-flow: column;
-  width: 70%;
-  height: 30%;
-  /* align-content: center; */
-  text-align: center;
-  padding: 2rem;
-  margin: 4% auto;
-
-  /* background: rgba(255,255,255);
-padding: 30px;
--webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
--moz-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
-box-shadow: 0 1px 2px rgba(0,0,0,0.15);
--webkit-border-radius: 5px;
--moz-border-radius: 5px;
--ms-border-radius: 5px;
--o-border-radius: 5px;
-border-radius: 5px; */
-/* box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
-                0 2px 4px rgba(0,0,0,0.07), 
-                0 4px 8px rgba(0,0,0,0.07), 
-                0 8px 16px rgba(0,0,0,0.07),
-                0 16px 32px rgba(0,0,0,0.07), 
-                0 32px 64px rgba(0,0,0,0.07); */
-  padding: 10px 10px 20px 10px;
-  border: 1px solid #BFBFBF;
-  background-color: white;
-  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; */
-  /* box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px; */
-  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-
-  /* background-color: blue;
-  margin: 0 auto; */
-}
-
-
-
-.current-strategy p {
-  margin: 2rem;
-  font-size: 22px;
-  /* background-color: blue; */
-}
-
-.current-strategy h1 {
-  /* background-color: blue; */
-}
-
 .inputs {
   display: inline-block;
   background-color: white;
   border: 3px solid orangered;
-  /* margin: auto; */
-  /* width: 30%; */
   vertical-align: middle;
-  /* margin-top: 10vh; */
   text-align:left;
   margin-left: 8.5%;
   margin-right: 8.5%;
+  margin-top: 4%;
   padding: 2.5%
-}
-
-#desc
-{
-    height:100px;
-    font-size:14pt;
 }

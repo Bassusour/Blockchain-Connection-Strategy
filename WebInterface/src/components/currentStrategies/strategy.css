@@ -17,23 +17,15 @@
 }
 
 .detailBtn {
-  /* padding: 1rem; */
-  font-family: inherit;
-  font-weight: bold;
   font-size: 1rem;
-  /* margin: 1rem; */
   background: grey ;
   color: white;
-  /* margin: 0 auto; */
-  /* border-color: orangered; */
-  /* border-radius: $radius; */
 }
 
 .gridContainer {
   width: 40vw;
   height: 40vh;
   background-color: white;
-  /* padding-left: 8.5 vw; */
 }
 
 .strategy {

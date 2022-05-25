@@ -1,6 +1,7 @@
 import '../../App.css'
 import "./Navbar.css"
 import { HashLink as Link } from "react-router-hash-link";
+import { useState } from 'react';
 
 const scrollWithOffset = (el) => {
     const yCoordinate = el.getBoundingClientRect().top + window.pageYOffset;
@@ -10,9 +11,13 @@ const scrollWithOffset = (el) => {
 
 
 function Nav(props) {
-  const {updateAddress} = props
+  const {updateAddress, userAddress} = props
+  const [currentAddress, setCurrentAddress] = useState(userAddress)
+
   const handleSubmit = (e) => {
     updateAddress(e.target.address.value)
+    setCurrentAddress(e.target.address.value)
+    e.target.reset();
     e.preventDefault();
   }
 
@@ -45,12 +50,13 @@ function Nav(props) {
           Add Strategy
         </Link>
       </div>
-        <div>
+        <div className="address">
           <form onSubmit={(e) => handleSubmit(e)}>
             <label className="addressLabel">public address </label>
             <input name="address" type="text" className="addressInput"></input>
-            <input type="submit" value="Set address" className="navBtnLink"></input>
+            <input type="submit" value="Set address" className="addressBtn"></input>
           </form>
+          <p className="currentAddress">Current address: {currentAddress}</p>
         </div>
     </div>
   );

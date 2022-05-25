@@ -78,10 +78,13 @@ class StrategyGrid extends React.PureComponent {
 
   displayStrategy(strategy) {
     const now = parseInt((new Date().getTime()/1000).toFixed(0))
-    if(strategy.endDate < now && this.state.userAddress !== ""){ //Expired
-      this.deleteStrategy(strategy.id)
-      return
-    }
+    try { //Remove exipred strategies
+      this.provider.getSigner(this.state.userAddress)
+      if(strategy.endDate < now){ 
+        this.deleteStrategy(strategy.id)
+        return
+      }
+    } catch{}
 
     const removeStyle = {
       position: "absolute",
@@ -90,7 +93,9 @@ class StrategyGrid extends React.PureComponent {
       cursor: "pointer"
     };
     var backgroundColor = ""
-    if(strategy.startDate < now && strategy.endDate > now){ //active
+    if(strategy.endDate < now){
+      backgroundColor = "purple"
+    } else if(strategy.startDate < now && strategy.endDate > now){ //active
       backgroundColor = "orangered"
     } else { //inactive
       backgroundColor = "black"
@@ -101,6 +106,7 @@ class StrategyGrid extends React.PureComponent {
         <span><b>{this.hexToString(strategy.name)}</b> <br/>
               {backgroundColor === "black" && <p> Inactive </p>}
               {backgroundColor === "orangered" && <p> Active </p>}
+              {backgroundColor === "purple" && <p> Exipred </p>}
               <Popup 
                 trigger={<button className="detailBtn"> Details </button>}
                 modal
@@ -131,9 +137,14 @@ class StrategyGrid extends React.PureComponent {
       alert("Please enter your public address")
       return
     }
-    const signer = this.provider.getSigner(this.state.userAddress)
+    var signer = ""
+    try {
+      signer = this.provider.getSigner(this.state.userAddress)
+    } catch(e) {
+      alert("Invalid address")
+      return
+    }
     const contract = new ethers.Contract(this.contractAddress, SixG_Strategy.abi, signer)
-    // console.log(id)
     const transaction = await contract.deleteStrategy(id)
     await transaction.wait()
   }
@@ -141,10 +152,6 @@ class StrategyGrid extends React.PureComponent {
   updateCurrentStrategies(){
     this.provider.on("block", async (blockNumber) => {
       var _data = await this.contract.getStrategies()
-
-      // if(_data.length === 0){
-      //   return 
-      // } 
 
       this.setState({ 
         items: _data.map(function(strategy, index, list) {

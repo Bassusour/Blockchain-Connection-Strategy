@@ -101,6 +101,7 @@ function AddStrategy(props) {
     }
     if (userAddress === ""){
       alert("Please enter your public address")
+      return
     }
 
     setNewStrat(prev => ({
@@ -114,7 +115,14 @@ function AddStrategy(props) {
       end_date: endDate,
       end_time: endTime
     }))
-    const signer = provider.getSigner(userAddress)
+    var signer = ""
+    try {
+      signer = provider.getSigner(userAddress)
+    } catch(e) {
+      alert("Invalid address")
+      return
+    }
+    console.log("test")
 
     const startTimeArr = startTime.split(":")
     const endTimeArr = endTime.split(":")
@@ -134,17 +142,21 @@ function AddStrategy(props) {
     name = "0x"+toHex(name).padEnd(64, "0")
     desc = "0x"+toHex(desc).padEnd(64, "0")
 
-    const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
-    const transaction = await contract.makeStrategy((newStrat.latlng.lng * (10 ** 5)).toFixed(0), 
-                                                    (newStrat.latlng.lat * (10 ** 5)).toFixed(0), 
-                                                    (newStrat.radius * (10 ** 5)).toFixed(0),
-                                                    start, 
-                                                    end,
-                                                    connectionTypeToNum[type],
-                                                    prioToNum[prio], 
-                                                    desc,
-                                                    name)
-    await transaction.wait()
+    try {
+      const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, signer)
+      const transaction = await contract.makeStrategy((newStrat.latlng.lng * (10 ** 5)).toFixed(0), 
+                                                      (newStrat.latlng.lat * (10 ** 5)).toFixed(0), 
+                                                      (newStrat.radius * (10 ** 5)).toFixed(0),
+                                                      start, 
+                                                      end,
+                                                      connectionTypeToNum[type],
+                                                      prioToNum[prio], 
+                                                      desc,
+                                                      name)
+      await transaction.wait()
+    } catch (e) {
+      alert(e)
+    }
     e.target.reset();
   };
 

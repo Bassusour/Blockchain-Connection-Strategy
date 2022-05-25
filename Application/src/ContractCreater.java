@@ -15,6 +15,7 @@ import ethereum.SixG_Strategy;
 public class ContractCreater {
     static SixG_Strategy strategyContract;
     static String address = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF";
+//    static String address = "0xE0C21CF8b1B43Eb796D71bC14AedBAD2C33AF7EA";
     static TransactionManager tm;
     static Credentials cr;
     static ContractGasProvider cgp;

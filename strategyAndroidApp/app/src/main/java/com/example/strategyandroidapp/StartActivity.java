@@ -22,7 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity{
+public class StartActivity extends AppCompatActivity{
     private static final int PICK_ACCOUNT_FILE = 1;
     File keyStoreDir;
 
@@ -114,5 +114,4 @@ public class MainActivity extends AppCompatActivity{
     private void log(String text){
        Log.i("web3j", text);
     }
-
 }

@@ -57,7 +57,6 @@ contract SixG_Strategy {
         Location memory location = Location(x, y , radius);
         Strategy memory strategy = Strategy(gid, location, startDate, endDate, connectionType, priority, description, name);
         strategies.push(strategy);
-        length = strategies.length;
         gid++;
         emit strategyChange();
     }
@@ -89,7 +88,5 @@ contract SixG_Strategy {
         return strategies[index];
     } 
 
-    function getLenght() public view returns (uint){
-        return length;
-    }
+
 }

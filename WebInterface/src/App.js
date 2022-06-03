@@ -29,6 +29,7 @@ const zoomLv = 13;
 const contractAddress = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF"
 const provider = new ethers.providers.JsonRpcProvider("http://192.168.43.187:8545");
 const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, provider)
+const now = parseInt((new Date().getTime()/1000).toFixed(0))
 
 function getFloat(num) {
   return num / (10 ** 5)
@@ -112,8 +113,16 @@ class App extends React.Component {
             />
             <div>{this.getStrategies()}</div>
 
-             {this.state.strategies.map((strategy, index) => 
-                <Circle key={strategy.id} fillColor={fillOptions[strategy.priority]} color={"black"} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
+             {this.state.strategies.map((strategy, index) => {
+                const now = parseInt((new Date().getTime()/1000).toFixed(0))
+                var color = ""
+                if(strategy.startDate < now && strategy.endDate > now){ //active
+                  color = "orangered"
+                } else { //inactive
+                  color = "black"
+                }
+               return (
+                <Circle key={strategy.id} fillColor={fillOptions[strategy.priority]} color={color} center={[getFloat(strategy.location[1]), getFloat(strategy.location[0])]} 
                   radius={getFloat(strategy.location[2])}> 
                   <Popup>{"Name: " + this.hexToString(strategy.name)} <br/>
                          {"Priority: " + prioToString[strategy.priority]} <br/>
@@ -124,7 +133,7 @@ class App extends React.Component {
                          </Popup>
                 </Circle>
 
-              )}
+              )})}
 
             </MapContainer>
           </div> 

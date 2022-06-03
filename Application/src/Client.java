@@ -33,7 +33,7 @@ public class Client {
         boolean running = true;
         while(running){
             TimeUnit.SECONDS.sleep(10);
-            if (!chooseActiveStrategy().equals(active_strategy)){
+            if (chooseActiveStrategy() != active_strategy){
                 active_strategy = chooseActiveStrategy();
                 enableStrategy();
             }
@@ -52,6 +52,9 @@ public class Client {
             if(now > strat.startDate.longValue() && now < strat.endDate.longValue() && 
                 ( returnStrat == null || strat.priority.intValue() > returnStrat.priority.intValue())) {
                     returnStrat = strat;
+                    if(returnStrat.priority.intValue() == 2) {
+                        break;
+                    }
             }
         }
         return returnStrat; 

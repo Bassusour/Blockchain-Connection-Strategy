@@ -1,4 +1,9 @@
+package com.example.strategyandroidapp;
+import android.util.Log;
+
+import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -10,23 +15,23 @@ import org.web3j.tx.TransactionManager;
 import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
 
-import ethereum.SixG_Strategy;
 
 public class ContractCreater {
     static SixG_Strategy strategyContract;
-    static String address = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF";
-//    static String address = "0xE0C21CF8b1B43Eb796D71bC14AedBAD2C33AF7EA";
     static TransactionManager tm;
     static Credentials cr;
     static ContractGasProvider cgp;
     public static Web3j web3j;
 
-    public SixG_Strategy create() throws IOException, CipherException{
-        web3j = Web3j.build(new HttpService("http://192.168.1.241:8545"));
-        cr = WalletUtils.loadCredentials(EthBasis.password, EthBasis.credentials);
+    public static SixG_Strategy create(String url, String keyStorePath, String code, String contractAddress)
+            throws Exception {
+        web3j = Web3j.build(new HttpService(url));
+        cr = WalletUtils.loadCredentials(code, keyStorePath);
         tm = new RawTransactionManager(web3j, cr);
         cgp = new DefaultGasProvider();
-        strategyContract = SixG_Strategy.load(address, web3j, tm, cgp);
+        Log.i("web3j", contractAddress);
+        strategyContract = SixG_Strategy.load(contractAddress, web3j, tm, cgp);
+        Log.i("web3j",strategyContract.getLenght().send().toString());
         return strategyContract;
     }
 }

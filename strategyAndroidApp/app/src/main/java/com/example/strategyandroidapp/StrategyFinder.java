@@ -1,6 +1,7 @@
 package com.example.strategyandroidapp;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -25,7 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
@@ -34,12 +34,11 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
 
    private SixG_Strategy strategyContract;
    private Strategy active_strategy;
-   private List<Strategy> strategies;
-   private Runtime runtime = Runtime.getRuntime();
+   public List<Strategy> strategies;
    private AppCompatActivity activity;
    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy  hh:mm");
    private String connections[] = {"wifi","Data"};
-   private FusedLocationProviderClient fusedLocationClient;
+   public FusedLocationProviderClient fusedLocationClient;
 
     public StrategyFinder(SixG_Strategy contract, AppCompatActivity activity){
         strategyContract = contract;
@@ -47,6 +46,11 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
         strategies = new ArrayList<Strategy>();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
     }
+
+    public StrategyFinder (Context context){
+        strategies = new ArrayList<Strategy>();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+    };
 
     @Override
     public void run() {
@@ -101,7 +105,7 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
         }
     }
 
-    private Strategy chooseActiveStrategy(){
+    public Strategy chooseActiveStrategy(){
         long now = System.currentTimeMillis() / 1000L;
         Strategy returnStrat = null;
         for(Strategy strat : strategies){
@@ -124,9 +128,10 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
                 wait();
             }
             if (locationTask.isSuccessful()) {
-                Log.i("web3j", "hallo");
                 android.location.Location myLocation = locationTask.getResult();
                 float distance = myLocation.distanceTo(stratLoc);
+                Log.i("web3j", Float.toString(distance));
+                Log.i("web3j", Double.toString(strat.location.radius.doubleValue() / 100000));
                 return (distance < strat.location.radius.doubleValue() / 100000);
             }
             return false;

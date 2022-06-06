@@ -34,4 +34,5 @@ public class ContractCreater {
         Log.i("web3j",strategyContract.getLenght().send().toString());
         return strategyContract;
     }
+
 }

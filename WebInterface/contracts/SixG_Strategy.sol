@@ -49,7 +49,7 @@ contract SixG_Strategy {
         return owner;
     }
 
-    function getID() public returns (uint) {
+    function getID() public view returns (uint) {
         return gid;
     }
     

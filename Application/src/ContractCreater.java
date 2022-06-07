@@ -9,7 +9,6 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.RawTransactionManager;
@@ -29,13 +28,14 @@ public class ContractCreater {
 
     // Method to create connection to contract and object
     public SixG_Strategy create() throws IOException, CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException{
-        web3j = Web3j.build(new HttpService("http://192.168.1.241:8545"));
+        web3j = Web3j.build(new HttpService("http://172.20.10.10:8545"));
         ECKeyPair keyPair = Keys.createEcKeyPair();
         WalletFile wallet = Wallet.createStandard(EthBasis.password, keyPair);
         cr = Credentials.create(Wallet.decrypt(EthBasis.password, wallet));
         tm = new RawTransactionManager(web3j, cr);
         cgp = new DefaultGasProvider();
         strategyContract = SixG_Strategy.load(address, web3j, tm, cgp);
+        System.out.println("Connection successful");
         return strategyContract;
     }
 }

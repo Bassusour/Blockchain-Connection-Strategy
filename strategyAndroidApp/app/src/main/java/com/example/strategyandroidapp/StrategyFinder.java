@@ -39,12 +39,14 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
    private SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy  hh:mm");
    private String connections[] = {"wifi","Data"};
    public FusedLocationProviderClient fusedLocationClient;
+   private DummyConnection dc;
 
     public StrategyFinder(SixG_Strategy contract, AppCompatActivity activity){
         strategyContract = contract;
         this.activity = activity;
         strategies = new ArrayList<Strategy>();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity);
+        dc = new DummyConnection(activity);
     }
 
     public StrategyFinder (Context context){
@@ -149,8 +151,10 @@ public class StrategyFinder implements Runnable, OnCompleteListener<android.loca
             String connectionString = connections[active_strategy.connectionType.intValue()];
             setUi(name, description, startString, endString, connectionString);
             setCircle();
+            dc.setConnection(active_strategy.connectionType.intValue());
         }else{
             setUi("No Strategy", "", "", "", "");
+            dc.setConnection(1);
             removeCircle();
         }
     }

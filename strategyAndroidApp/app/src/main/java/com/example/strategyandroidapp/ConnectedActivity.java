@@ -90,4 +90,5 @@ public class ConnectedActivity extends AppCompatActivity {
             ((MapsFragment)getSupportFragmentManager().findFragmentByTag("mapTag")).enableMyLocation();
         }
     }
+
 }

@@ -9,7 +9,7 @@ import "remix_tests.sol";
 // Although it may fail compilation in 'Solidity Compiler' plugin
 // But it will work fine in 'Solidity Unit Testing' plugin
 import "remix_accounts.sol";
-import "Strategy.sol";
+import "SixG_Strategy.sol";
 // <import file to test>
 
 // File name has to end with '_test.sol', this file can contain more than one testSuite contracts

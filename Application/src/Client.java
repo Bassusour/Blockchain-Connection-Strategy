@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -15,24 +14,19 @@ public class Client {
     static Runtime runtime = Runtime.getRuntime();
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
         strategyContract = new ContractCreater().create();
         setStrategies();
         active_strategy = chooseActiveStrategy();
         enableStrategy();
-        // System.out.println(strategies.get(0).startDate.toString());
-        // System.out.println(System.currentTimeMillis() / 1000L);
-        // System.out.println(strategies.get(0).endDate.toString());
+        // Event flowable creating new thread. Triggers when change in list
         Flowable<StrategyChangeEventResponse> flow = strategyContract.strategyChangeEventFlowable(DefaultBlockParameterName.LATEST, DefaultBlockParameterName.LATEST);
         flow.subscribe(event -> {
-            System.out.println("In event");
             setStrategies();
             active_strategy = chooseActiveStrategy();
             enableStrategy();
         });
-
-        boolean running = true;
-        while(running){
+        // loop checking expiration or start
+        while(true){
             TimeUnit.SECONDS.sleep(10);
             if (chooseActiveStrategy() != active_strategy){
                 active_strategy = chooseActiveStrategy();
@@ -42,17 +36,19 @@ public class Client {
     }
 
     public static void setStrategies() throws Exception{
+        // get strategy list from contract
         strategies = strategyContract.getStrategies().send();
     }
 
+    // Iterate list and check dates and priority in order to choose
     public static Strategy chooseActiveStrategy(){
-        System.out.println("In choose");
         long now = System.currentTimeMillis() / 1000L;
         Strategy returnStrat = null;
         for(Strategy strat : strategies){
             if(now > strat.startDate.longValue() && now < strat.endDate.longValue() && 
                 ( returnStrat == null || strat.priority.intValue() > returnStrat.priority.intValue())) {
                     returnStrat = strat;
+                    // If max priority is found then no other will be chosen
                     if(returnStrat.priority.intValue() == 2) {
                         break;
                     }
@@ -62,13 +58,12 @@ public class Client {
     }
 
     public static void enableStrategy() throws IOException, InterruptedException{
-        System.out.println("In enable");
         if(active_strategy != null) {
-            System.out.println("Connection: " + active_strategy.connectionType);
-            System.out.println("Desc: " + new String(active_strategy.description, StandardCharsets.UTF_8));
+            // Turn bluetooth off it set to WIFI
             if (active_strategy.connectionType.intValue() == 0) {
                 Process proc = runtime.exec("bluetoothctl power off");
                 proc.waitFor();
+            // Turn bluetooth on it set to DATA
             } else if (active_strategy.connectionType.intValue() == 1) {
                 Process proc = runtime.exec("bluetoothctl power on");
                 proc.waitFor();

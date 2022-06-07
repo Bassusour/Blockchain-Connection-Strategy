@@ -27,6 +27,7 @@ public class ContractCreater {
     static ContractGasProvider cgp;
     public static Web3j web3j;
 
+    // Method to create connection to contract and object
     public SixG_Strategy create() throws IOException, CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException{
         web3j = Web3j.build(new HttpService("http://192.168.1.241:8545"));
         ECKeyPair keyPair = Keys.createEcKeyPair();

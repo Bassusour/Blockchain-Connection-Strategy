@@ -31,7 +31,6 @@ public class ContractCreater {
         cgp = new DefaultGasProvider();
         Log.i("web3j", contractAddress);
         strategyContract = SixG_Strategy.load(contractAddress, web3j, tm, cgp);
-        Log.i("web3j",strategyContract.getLenght().send().toString());
         return strategyContract;
     }
 

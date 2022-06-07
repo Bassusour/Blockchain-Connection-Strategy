@@ -27,8 +27,8 @@ const initialPos = [55.78373878553941, 12.518501326376303];
 const zoomLv = 13;  
 const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
 // const contractAddress = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF"
-const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
-// const provider = new ethers.providers.JsonRpcProvider("http://192.168.1.241:8545");
+//const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+ const provider = new ethers.providers.JsonRpcProvider("http://172.20.10.10:8545");
 const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, provider)
 const now = parseInt((new Date().getTime()/1000).toFixed(0))
 

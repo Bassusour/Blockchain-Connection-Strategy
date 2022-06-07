@@ -25,9 +25,10 @@ L.Icon.Default.imagePath='leaflet_images/';
 
 const initialPos = [55.78373878553941, 12.518501326376303];
 const zoomLv = 13;  
-//const contractAddress = "0x025E14dDeEb3a617B32Fe7610F7D2127d43734a3"
-const contractAddress = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF"
-const provider = new ethers.providers.JsonRpcProvider("http://192.168.43.187:8545");
+const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+// const contractAddress = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF"
+const provider = new ethers.providers.JsonRpcProvider("http://127.0.0.1:8545");
+// const provider = new ethers.providers.JsonRpcProvider("http://192.168.1.241:8545");
 const contract = new ethers.Contract(contractAddress, SixG_Strategy.abi, provider)
 const now = parseInt((new Date().getTime()/1000).toFixed(0))
 
@@ -116,7 +117,9 @@ class App extends React.Component {
              {this.state.strategies.map((strategy, index) => {
                 const now = parseInt((new Date().getTime()/1000).toFixed(0))
                 var color = ""
-                if(strategy.startDate < now && strategy.endDate > now){ //active
+                if(strategy.endDate < now){
+                  color = "#A865C9"
+                } else if(strategy.startDate < now && strategy.endDate > now){ //active
                   color = "orangered"
                 } else { //inactive
                   color = "black"

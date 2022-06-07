@@ -48,6 +48,10 @@ contract SixG_Strategy {
     function getOwner() public view returns (address) {
         return owner;
     }
+
+    function getID() public returns (uint) {
+        return gid;
+    }
     
     function makeStrategy( int32 x, int32 y, uint32 radius, 
                             uint startDate, uint endDate, 

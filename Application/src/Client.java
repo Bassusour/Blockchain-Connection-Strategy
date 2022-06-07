@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -60,11 +61,18 @@ public class Client {
         return returnStrat; 
     }
 
-    public static void enableStrategy(){
+    public static void enableStrategy() throws IOException, InterruptedException{
         System.out.println("In enable");
         if(active_strategy != null) {
             System.out.println("Connection: " + active_strategy.connectionType);
             System.out.println("Desc: " + new String(active_strategy.description, StandardCharsets.UTF_8));
+            if (active_strategy.connectionType.intValue() == 0) {
+                Process proc = runtime.exec("bluetoothctl power off");
+                proc.waitFor();
+            } else if (active_strategy.connectionType.intValue() == 1) {
+                Process proc = runtime.exec("bluetoothctl power on");
+                proc.waitFor();
+            }
         }
     }
 }

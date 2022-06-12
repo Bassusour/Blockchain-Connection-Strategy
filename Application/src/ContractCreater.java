@@ -20,7 +20,7 @@ import ethereum.SixG_Strategy;
 
 public class ContractCreater {
     static SixG_Strategy strategyContract;
-    static String address = "0xe086E3F3df3350C4B71E8FA9837A8eB6dE119DfF";
+    static String address = "0xF7737b3307383FF2B8ebbfa9043D5602a02a3D6e";
     static TransactionManager tm;
     static Credentials cr;
     static ContractGasProvider cgp;
@@ -30,8 +30,8 @@ public class ContractCreater {
     public SixG_Strategy create() throws IOException, CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException{
         web3j = Web3j.build(new HttpService("http://172.20.10.10:8545"));
         ECKeyPair keyPair = Keys.createEcKeyPair();
-        WalletFile wallet = Wallet.createStandard(EthBasis.password, keyPair);
-        cr = Credentials.create(Wallet.decrypt(EthBasis.password, wallet));
+        WalletFile wallet = Wallet.createStandard("code", keyPair);
+        cr = Credentials.create(Wallet.decrypt("code", wallet));
         tm = new RawTransactionManager(web3j, cr);
         cgp = new DefaultGasProvider();
         strategyContract = SixG_Strategy.load(address, web3j, tm, cgp);

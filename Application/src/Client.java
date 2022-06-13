@@ -61,10 +61,12 @@ public class Client {
         if(active_strategy != null) {
             // Turn bluetooth off it set to WIFI
             if (active_strategy.connectionType.intValue() == 0) {
+                System.out.println("Turning bluetooth off");
                 Process proc = runtime.exec("bluetoothctl power off");
                 proc.waitFor();
             // Turn bluetooth on it set to DATA
             } else if (active_strategy.connectionType.intValue() == 1) {
+                System.out.println("Turning bluetooth on");
                 Process proc = runtime.exec("bluetoothctl power on");
                 proc.waitFor();
             }
